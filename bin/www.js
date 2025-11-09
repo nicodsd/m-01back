@@ -19,7 +19,8 @@ const normalizePort = (val) => {
   return false;
 };
 
-const port = normalizePort(process.env.PORT || "4000");
+const port = normalizePort(process.env.PORT || "3000");
+
 app.set("port", port);
 
 // Crear servidor HTTP
@@ -36,6 +37,7 @@ const startServer = async () => {
       console.log(`✅ Servidor corriendo en http://localhost:${port}`);
     });
   } catch (error) {
+    console.log("ERRRROROROR", error)
     onError(error);
   }
 };
@@ -43,7 +45,7 @@ const startServer = async () => {
 // Manejo de errores
 const onError = (error) => {
   if (error.syscall !== "listen") throw error;
-
+  
   const bind = typeof port === "string" ? `Pipe ${port}` : `Port ${port}`;
 
   switch (error.code) {
