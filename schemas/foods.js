@@ -14,25 +14,29 @@ export const foodSchema = Joi.object({
     "string.empty": "Faltó el nombre del plato",
   }),
   photo: Joi.string()
-    .custom((value, helpers) => {
-      const regex = /^https?:\/\/storage\.googleapis\.com\/.*$/;
-
-      if (regex.test(value)) {
-        return value;
-      }
-
-      return helpers.error("any.invalid");
-    }, "Firebase URL validation")
-    .required()
-    .messages({
-      "any.required": "URL invalid",
-      "string.empty": "Faltó la foto",
-      "any.invalid": "URL invalid",
-    }),
+  .custom((value, helpers) => {
+    const regex = /^https?:\/\/storage\.googleapis\.com\/.*$/;
+    
+    if (regex.test(value)) {
+      return value;
+    }
+    
+    return helpers.error("any.invalid");
+  }, "Firebase URL validation")
+  .required()
+  .messages({
+    "any.required": "URL invalid",
+    "string.empty": "Faltó la foto",
+    "any.invalid": "URL invalid",
+  }),
   description: Joi.string().min(10).required().messages({
     "any.required": "Faltó la descripción del plato",
     "string.required": "Faltó la descripción del plato",
     "string.min": "La descripción del plato es muy corta",
+  }),
+  price: Joi.number().required().messages({
+    "any.required": "Faltó el nombre del plato",
+    "string.empty": "Faltó el nombre del plato",
   }),
   category_id: Joi.objectId().required().messages({
     "any.required": "Agregale una categoría",

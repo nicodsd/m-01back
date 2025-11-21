@@ -7,6 +7,7 @@ let schema = new Schema(
     allergens: { type: Array, required: true },
     photo: { type: String, required: true },
     category: { type: String, required: true },
+    price: { type: Number, required: true },
   },
   {
     timestamps: true,
