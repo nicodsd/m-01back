@@ -16,7 +16,7 @@ const app = express();
 
 const limiter = rateLimit({
   windowMs: 60 * 1000,
-  max: 10,
+  max: 20,
   handler: (req, res) => {
     res.status(429).json({
       error: "Demaciadas peticiones, intenta más tarde ⛔",
@@ -27,28 +27,26 @@ const limiter = rateLimit({
 app.use(cors());
 app.use(limiter);
 
-//MANEJO DEL MORGAN
-morgan.token("navegador", (req) => req.headers["user-agent"]);
-morgan.token("ip", (req) => req.ip || req.connection.remoteAddress);
-
-app.get("/visitas", async (req, res) => {
-  const visitas = await Visita.find().sort({ fecha: -1 }).limit(100);
-  res.json(visitas);
-});
-
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 
+//MANEJO DEL MORGAN
+/* morgan.token("navegador", (req) => req.headers["user-agent"]);
+morgan.token("ip", (req) => req.ip || req.connection.remoteAddress); */
 // MIDDLEWARES
 app.use((req, res, next) => {
   console.log("logged");
-
   next();
 });
 
 app.use(morgan("dev"));
-app.use("/", indexRouter);
+app.use(express.json()); 
+app.use("/api", indexRouter);
 
+/* app.get("/visitas", async (req, res) => {
+  const visitas = await Visita.find().sort({ fecha: -1 }).limit(100);
+  res.json(visitas);
+});
 app.use(
   morgan(":ip :method :url :status :navegador", {
     stream: {
@@ -66,6 +64,6 @@ app.use(
       },
     },
   })
-);
+); */
 
 export default app;

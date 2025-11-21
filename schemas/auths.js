@@ -12,7 +12,12 @@ export const userSignUp = Joi.object({
     "string.min": "Password length must be at least 8 characters long",
   }),
   photo: Joi.string().required().uri().messages({
-    "any.required": "An URL with your profile picture is required", 
+    "any.required": "An URL with your profile picture is required",
+    "string.empty": "An URL with your profile picture is required",
+    "string.uri": "Please put a valid URL",
+  }),
+  photo: Joi.string().required().uri().messages({
+    "any.required": "An URL with your profile picture is required",
     "string.empty": "An URL with your profile picture is required",
     "string.uri": "Please put a valid URL",
   }),

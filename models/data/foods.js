@@ -50,7 +50,7 @@ export let foods = [
     description:
       "Capas de pasta con salsa boloñesa, bechamel y queso gratinado.",
     price: 12000,
-    photo: "/images/foods/pastas/lasagna.jpeg",
+    photo: "/images/foods/pastas/lasagna.jpg",
     allergens: "gluten, dairy",
     category: "Pastas",
   },
@@ -60,7 +60,7 @@ export let foods = [
     description:
       "Postre italiano con bizcochos empapados en café, crema de mascarpone y cacao.",
     price: 4500,
-    photo: "/images/foods/desserts/tiramisu.jpeg",
+    photo: "/images/foods/postres/R.jpeg",
     allergens: "dairy, gluten, egg",
     category: "Postres",
   },
@@ -69,7 +69,7 @@ export let foods = [
     name: "Batido de Frutilla",
     description: "Batido cremoso de frutillas frescas y leche, servido frío.",
     price: 3500,
-    photo: "/images/foods/drinks/strawberry_shake.webp",
+    photo: "/images/foods/bebidas/batidos/Strawberry Milkshake.jpg",
     allergens: "dairy",
     category: "Bebidas",
   },
