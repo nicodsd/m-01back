@@ -6,18 +6,17 @@ passport.use(
   new passportJwt.Strategy(
     {
       jwtFromRequest: passportJwt.ExtractJwt.fromAuthHeaderAsBearerToken(),
-      secretOrKey: process.env.SECRET, // esto sirve para desencriptar y elaborar una estrategia para extraer ese token
+      secretOrKey: process.env.JWT_SECRET_KEY
     },
     async (jwt_payload, done) => {
       try {
-        let user = await User.findOne({ _id: jwt_payload.id });
+        let user = await User.findOne({ _id: jwt_payload._id });
         if (user) {
           return done(null, user);
         } else {
           return done(null, false);
         }
       } catch (error) {
-        console.log(error);
         return done(error, false);
       }
     }
