@@ -34,7 +34,7 @@ const startServer = async () => {
       const bind =
         typeof addr === "string" ? `pipe ${addr}` : `port ${addr.port}`;
       debug(`Listening on ${bind}`);
-      console.log(`✅ Servidor corriendo en http://localhost:${port}`);
+      console.log(`✅ Servidor corriendo en http://localhost:${port}/api`);
     });
   } catch (error) {
     console.log("ERRRROROROR", error)

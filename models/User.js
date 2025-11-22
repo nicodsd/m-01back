@@ -18,6 +18,14 @@ let schema = new Schema(
       type: Number,
       required: true,
     },
+    is_active: {
+      type: Boolean,
+      required: true,
+    },
+    is_online: {
+      type: Boolean,
+      required: true,
+    },
   },
   {
     timestamps: true,
