@@ -10,13 +10,14 @@ import validatePassword from '../middlewares/validatePassword.js';
 import accountExistsSignIn from '../middlewares/accountSignIn.js';
 import accountIsoline from '../middlewares/accountIsOnline.js';
 import createHash from '../middlewares/createHash.js';
+import formIdable from "../middlewares/form-idable.js";
 import { userSignUp, userSignIn } from "../schemas/auths.js";
 
 //INITIALIZE
 const router = express.Router();
 
 //ENDPOINTS AUTH - REGISTER, LOGIN, LOGOUT
-router.post("/signup", validator(userSignUp), userAlreadyExist, createHash, signUp);
+router.post("/signup", formIdable, validator(userSignUp), userAlreadyExist, createHash, signUp);
 router.post("/signin", validator(userSignIn), accountExistsSignIn, accountIsoline, validatePassword, signin);
 router.post("/signout", passport.authenticate("jwt", { session: false }), signout);
 
