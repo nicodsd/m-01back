@@ -1,7 +1,7 @@
 import User from "../../models/User.js";
-
 const signout = async (req, res, next) => {
   const id = req.user._id;
+  console.log("id", id);
   try {
     let userOffline = await User.findOneAndUpdate(
       { _id: id },
@@ -16,5 +16,4 @@ const signout = async (req, res, next) => {
     next(error);
   }
 };
-
 export default signout;

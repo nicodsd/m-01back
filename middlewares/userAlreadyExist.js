@@ -1,10 +1,6 @@
 import User from "../models/User.js";
-
-const userAlreadyExist = async (req, res, next) => {
-  // Lógica para verificar si el usuario ya existe en la base de datos
-  // Por ejemplo, podrías hacer una consulta a la base de datos aquí
-  // Si el usuario existe, asignarlo a la variable 'user'
-  let user = null;
+export default async function userAlreadyExist(req, res, next) {
+  let user = req.body.email;
   try {
     user = await User.findOne({ email: user });
     if (user) {
@@ -16,6 +12,4 @@ const userAlreadyExist = async (req, res, next) => {
     return next(error);
   }
   next();
-};
-
-export default userAlreadyExist;
+}
