@@ -11,18 +11,15 @@ import accountExistsSignIn from '../middlewares/accountSignIn.js';
 import accountIsoline from '../middlewares/accountIsOnline.js';
 import createHash from '../middlewares/createHash.js';
 import formIdable from "../middlewares/form-idable.js";
+import authMiddleware from "../middlewares/authMiddleware.js";
 import { userSignUp, userSignIn } from "../schemas/auths.js";
-
 //INITIALIZE
 const router = express.Router();
-
 //ENDPOINTS AUTH - REGISTER, LOGIN, LOGOUT
 router.post("/signup", formIdable, validator(userSignUp), userAlreadyExist, createHash, signUp);
 router.post("/signin", validator(userSignIn), accountExistsSignIn, accountIsoline, validatePassword, signin);
-router.post("/signout", passport.authenticate("jwt", { session: false }), signout);
-
+router.post("/signout", authMiddleware, passport.authenticate("jwt", { session: false }), signout);
 //ENDPOINTS AUTH - ADMIN
 router.post("/admin", signin);
-
 //EXPORT
 export default router;

@@ -8,9 +8,8 @@ import cors from "cors";
 import Visita from "./models/Visita.js";
 import indexRouter from "./routes/index.js";
 import { __dirname } from "./utils.js";
-
+import cookieParser from 'cookie-parser';
 const app = express();
-
 // Rate Limite, para limitar las peticiones al servidor
 const limiter = rateLimit({
   windowMs: 60 * 1000,
@@ -21,21 +20,17 @@ const limiter = rateLimit({
     });
   },
 });
-
-app.use(cors());
+app.use(cors({ origin: process.env.FRONTEND_URL, credentials: true }));
 app.use(limiter);
-
+app.use(cookieParser());
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
-
 //MANEJO DEL MORGAN
 /* morgan.token("navegador", (req) => req.headers["user-agent"]);
 morgan.token("ip", (req) => req.ip || req.connection.remoteAddress); */
-
 app.use(morgan("dev"));
 app.use(express.json());
 app.use("/api", indexRouter);
-
 /* app.get("/visitas", async (req, res) => {
   const visitas = await Visita.find().sort({ fecha: -1 }).limit(100);
   res.json(visitas);
@@ -58,5 +53,4 @@ app.use(
     },
   })
 ); */
-
 export default app;
