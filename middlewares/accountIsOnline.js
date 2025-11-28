@@ -1,5 +1,4 @@
 import User from "../models/User.js";
-
 async function accountIsOnline(req, res, next) {
   const reqEmail = req.body.email;
   let user = await User.findOne({ email: reqEmail });
@@ -12,5 +11,4 @@ async function accountIsOnline(req, res, next) {
   }
   next();
 }
-
 export default accountIsOnline;

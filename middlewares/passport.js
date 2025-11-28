@@ -1,21 +1,25 @@
-import passport from "passport";
 import passportJwt from "passport-jwt";
 import User from "../models/User.js";
-passport.initialize();
-passport.session();
+import passport from "passport";
+const cookieExtractor = (req) => {
+  let token = null;
+  if (req && req.cookies) {
+    token = req.cookies.token;
+  }
+  return token;
+};
 passport.use(
-  new passportJwt.Strategy({
-    jwtFromRequest: passportJwt.ExtractJwt.fromAuthHeaderAsBearerToken(),
-    secretOrKey: process.env.JWT_SECRET_KEY
-  },
+  new passportJwt.Strategy(
+    {
+      jwtFromRequest: cookieExtractor,
+      secretOrKey: process.env.JWT_SECRET_KEY,
+    },
     async (jwt_payload, done) => {
+      console.log(jwt_payload);
       try {
-        let user = await User.findOne({ email: jwt_payload.email });
-        if (user) {
-          return done(null, user);
-        } else {
-          return done(null, false);
-        }
+        const user = await User.findById(jwt_payload._id);
+        if (user) return done(null, user);
+        return done(null, false);
       } catch (error) {
         return done(error, false);
       }

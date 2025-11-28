@@ -1,5 +1,4 @@
 import bcryptjs from "bcryptjs";
-
 function validatePassword(req, res, next) {
   const db_pass = req.user.password;
   const form_pass = req.body.password;
@@ -12,5 +11,4 @@ function validatePassword(req, res, next) {
     message: "Wrong credentials!",
   });
 }
-
 export default validatePassword;

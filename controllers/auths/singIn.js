@@ -1,28 +1,34 @@
 import User from "../../models/User.js";
 import jwt from "jsonwebtoken";
-let signin = async (req, res, next) => {
-  const reqEmail = req.body.email;
+const signin = async (req, res, next) => {
+  const { email } = req.body;
   const $key = process.env.JWT_SECRET_KEY;
   try {
-    let newUser = new User(req.body);
-    const token = jwt.sign({ ...newUser._doc }, $key, { expiresIn: 60 * 60 * 24 });
-    await User.findOneAndUpdate({ email: reqEmail }, { is_online: true });
-    const user = {
-      id: req.user.id,
-      email: req.user.email,
-      photo: req.user.photo,
-      role: req.user.role,
-    };
-    res.cookie('jwt', token, {
+    const userFound = await User.findOne({ email });
+    if (!userFound) {
+      return res.status(401).json({ success: false, message: "Usuario no encontrado" });
+    }
+    const token = jwt.sign(
+      { _id: userFound._id, email: userFound.email, role: userFound.role },
+      $key,
+      { expiresIn: 60 * 60 * 24 } // 1 día
+    );
+    await User.findByIdAndUpdate(userFound._id, { is_online: true });
+    return res.status(200).cookie("token", token, {
       httpOnly: true,
-      secure: true,
-      sameSite: 'strict',
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "strict",
       maxAge: 60 * 60 * 24 * 1000,
-    });
-    return res.status(200).json({
+    }).json({
       success: true,
       message: "Inicio de sesión exitoso",
-      user,
+      token,
+      user: {
+        id: userFound._id,
+        email: userFound.email,
+        photo: userFound.photo,
+        role: userFound.role,
+      },
     });
   } catch (error) {
     next(error);
