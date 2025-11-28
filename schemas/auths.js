@@ -1,15 +1,20 @@
 import Joi from "joi";
 
 export const userSignUp = Joi.object({
+  name: Joi.string().required().min(3).messages({
+    "any.required": "Name required",
+    "string.empty": "Name required",
+    "string.min": "Ingresa al menos 3 caracteres",
+  }),
   email: Joi.string().required().email({ minDomainSegments: 2 }).messages({
     "any.required": "An email is required",
     "string.empty": "An email is required",
-    "string.email": "Invalid email",
+    "string.email": "Ingresa un email valido",
   }),
   password: Joi.string().required().min(8).messages({
     "any.required": "Password required",
     "string.empty": "Password required",
-    "string.min": "Password length must be at least 8 characters long",
+    "string.min": "Ingresa al menos 8 caracteres",
   }),
   photo: Joi.string().required().uri(),
   role: Joi.number().required(),
