@@ -1,6 +1,7 @@
 import formidable from 'formidable';
 import { v2 as cloudinary } from 'cloudinary';
 export default async function (req, res, next) {
+    console.log(req.body);
     cloudinary.config({
         cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
         api_key: process.env.CLOUDINARY_API_KEY,
@@ -16,6 +17,7 @@ export default async function (req, res, next) {
             return res.status(400).json({ message: 'Error al procesar formulario' });
         }
         try {
+            const name = fields.name[0].toString();
             const role = parseInt(fields.role, 10); // convierte a número
             const is_online = fields.is_online === 'true'; // convierte a booleano
             const is_active = fields.is_active === 'true';
@@ -32,8 +34,7 @@ export default async function (req, res, next) {
             if (!imageUrl) {
                 imageUrl = "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png";
             }
-            req.body = { email, password, photo: imageUrl, role, is_online, is_active };
-            console.log(req.body);
+            req.body = { name, email, password, photo: imageUrl, role, is_online, is_active };
             return next();
         } catch (error) {
             console.error('Error al subir a Cloudinary:', error);
