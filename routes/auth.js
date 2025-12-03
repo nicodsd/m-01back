@@ -15,12 +15,14 @@ import nameAlreadyExist from "../middlewares/nameAlreadyExist.js";
 import authMiddleware from "../middlewares/authMiddleware.js";
 import updateUser from "../controllers/payAuth/updateUser.js";
 import { userSignUp, userSignIn } from "../schemas/auths.js";
+import createFoodByUserId from "../controllers/food/post.js";
 //INITIALIZE
 const router = express.Router();
 //ENDPOINTS AUTH - REGISTER, LOGIN, LOGOUT
 router.post("/signup", formIdable, validator(userSignUp), nameAlreadyExist, emailAlreadyExist, createHash, signUp);
 router.post("/signin", validator(userSignIn), accountExistsEmailSignIn, accountIsoline, validatePassword, signin);
 router.post("/signout", passport.authenticate("jwt", { session: false }), signout);
+router.post("/post", passport.authenticate("jwt", { session: false }), createFoodByUserId);
 //ENDPOINTS AUTH - UPDATE
 router.put("/update/:id", authMiddleware, nameAlreadyExist, updateUser);
 //ENDPOINTS AUTH - ADMIN

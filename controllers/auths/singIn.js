@@ -24,6 +24,7 @@ const signin = async (req, res, next) => {
       message: "Inicio de sesión exitoso",
       token,
       user: {
+        name: userFound.name,
         id: userFound._id,
         email: userFound.email,
         photo: userFound.photo,
