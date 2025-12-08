@@ -16,7 +16,11 @@ export const userSignUp = Joi.object({
     "string.empty": "Password required",
     "string.min": "Ingresa al menos 8 caracteres",
   }),
-  photo: Joi.string().required().uri(),
+  photo: Joi.string().required().uri().messages({
+    "any.required": "Photo required",
+    "string.empty": "Photo required",
+    "string.uri": "Invalid photo",
+  }),
   role: Joi.number().required(),
   is_active: Joi.boolean().required(),
   is_online: Joi.boolean().required(),

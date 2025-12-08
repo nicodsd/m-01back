@@ -1,5 +1,5 @@
 import User from "../models/User.js";
-export default async function userAlreadyExist(req, res, next) {
+export default async function emailAlreadyExist(req, res, next) {
   let user = req.body.email.toLowerCase();
   try {
     user = await User.findOne({ email: user });

@@ -1,5 +1,4 @@
 import { Schema, model } from "mongoose";
-
 let schema = new Schema(
   {
     name: {
@@ -35,9 +34,6 @@ let schema = new Schema(
     timestamps: true,
   }
 );
-
 let collection = "users";
-
 let User = model(collection, schema);
-
 export default User;
