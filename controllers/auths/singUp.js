@@ -12,7 +12,6 @@ export default async function signUp(req, res, next) {
     is_active: false,
     createdAt: new Date()
   };
-  console.log(userData);
   try {
     let newUser = new User(userData);
     await newUser.save();
