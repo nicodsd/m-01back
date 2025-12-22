@@ -1,11 +1,15 @@
-import uploadToCloudinary from "../middlewares/cloudinaryUpload.js";
+import { uploadToCloudinaryUser, uploadToCloudinaryFood } from "../middlewares/cloudinaryUpload.js";
 async function cloudinaryUploadMiddleware(req, res, next) {
     try {
         if (!req.files) return next();
         const fileArray = Object.values(req.files.photo);
         const urls = await Promise.all(
             fileArray.map(async (file) => {
-                return await uploadToCloudinary(file.filepath);
+                if (!req.body.user_id) {
+                    return await uploadToCloudinaryUser(file.filepath);
+                } else {
+                    return await uploadToCloudinaryFood(file.filepath);
+                }
             })
         );
         const img = urls;

@@ -1,9 +1,13 @@
 import { Router } from "express";
+import passport from "../middlewares/passport.js";
+import validator from "../middlewares/validator.js";
 import read from "../controllers/categories/get.js";
-import createCategory from "../controllers/categories/post.js";
 import destroy from "../controllers/categories/delete.js";
+import { createSubCategory, createCategory } from "../controllers/categories/post.js";
+import { categorySchema, categorySchemaUpdate, subCategorySchema } from "../schemas/categories.js";
 let router = Router();
 router.get("/", read);
-router.post("/", createCategory);
-router.delete("/:id", destroy);
+router.post("/", passport.authenticate("jwt", { session: false }), validator(categorySchema), createCategory);
+router.post("/sub", passport.authenticate("jwt", { session: false }), validator(subCategorySchema), createSubCategory);
+router.delete("/:id", passport.authenticate("jwt", { session: false }), validator(categorySchemaUpdate), destroy);
 export default router;

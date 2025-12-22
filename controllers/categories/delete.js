@@ -1,4 +1,4 @@
-import Category from "../../models/Categories.js";
+import Category from "../../models/Category.js";
 const destroy = async (req, res, next) => {
   const { name } = req.params;
   try {

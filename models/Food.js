@@ -1,5 +1,4 @@
 import { Schema, model, Types } from "mongoose";
-
 let schema = new Schema(
   {
     photo: { type: String, required: false },
@@ -14,9 +13,6 @@ let schema = new Schema(
     timestamps: true,
   }
 );
-
 let collection = "foods";
-
 let Foods = model(collection, schema);
-
 export default Foods;

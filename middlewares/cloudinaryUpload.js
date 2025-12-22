@@ -4,10 +4,16 @@ cloudinary.config({
   api_key: process.env.CLOUDINARY_API_KEY,
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
-async function uploadToCloudinary(filePath) {
+async function uploadToCloudinaryUser(filePath) {
   const result = await cloudinary.uploader.upload(filePath, {
     folder: "usuarios",
   });
   return result.secure_url;
 }
-export default uploadToCloudinary;
+async function uploadToCloudinaryFood(filePath) {
+  const result = await cloudinary.uploader.upload(filePath, {
+    folder: "foods",
+  });
+  return result.secure_url;
+}
+export { uploadToCloudinaryUser, uploadToCloudinaryFood };
