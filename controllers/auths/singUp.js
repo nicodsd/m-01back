@@ -18,6 +18,7 @@ export default async function signUp(req, res, next) {
     await User.findOneAndUpdate({ email: newUser.email }, { is_online: true });
     const token = jwt.sign({ _id: newUser._id, email: newUser.email, role: newUser.role }, $key, { expiresIn: 60 * 60 * 24 });
     let user = {
+      id: newUser._id,
       name: newUser.name,
       email: newUser.email,
       photo: newUser.photo,
@@ -33,6 +34,7 @@ export default async function signUp(req, res, next) {
       maxAge: 60 * 60 * 24 * 1000,
     }).json({
       success: true,
+      status: 200,
       token,
       user,
       timeStamps: newUser.createdAt,

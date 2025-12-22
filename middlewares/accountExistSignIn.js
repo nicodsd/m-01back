@@ -18,5 +18,4 @@ async function accountExistsSignIn(req, res, next) {
     message: "User doesn't exist",
   });
 }
-
 export default accountExistsSignIn;
