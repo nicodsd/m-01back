@@ -1,42 +1,37 @@
 import User from '../../models/User.js';
 import Food from '../../models/Food.js';
-import Category from '../../models/Category.js';
+import SubCategory from '../../models/SubCategory.js';
 let createFoodByUserId = async (req, res, next) => {
     try {
-        let { photo, name, description, category, price, user_id, allergens, sub_category } = req.body;
+        let { photo, name, description, category, price, sub_category } = req.body;
+        let user_id = req.params.user_id;
+        console.log("user_id", user_id);
+        console.log("req.body", req.body);
         let user = await User.findOne({ _id: user_id });
         if (user) {
-            // Crear la comida
             let foodData = {
-                user_id: user_id,
+                user_id,
                 photo,
                 name,
                 description,
                 price,
-                //allergens,
-                category,
-                sub_category
+                sub_category: "",
+                category
             };
+            let existingCat = await SubCategory.findOne({ name: sub_category, user_id: user_id });
+            if (existingCat) {
+                foodData.sub_category = existingCat.name;
+            } else {
+                let newCat = await SubCategory.create({
+                    name: sub_category,
+                    user_id: user_id,
+                    foods: [],
+                });
+                await newCat.save();
+                foodData.sub_category = newCat.name;
+            }
             let food = await Food.create(foodData);
             if (food) {
-                // Iterar sobre cada categoría recibida
-                for (let cat of category) {
-                    // Buscar si ya existe la categoría
-                    let existingCat = await Category.findOne({ name: cat });
-
-                    if (existingCat) {
-                        // Si existe, agregar el food_id
-                        existingCat.foods.push(food._id);
-                        await existingCat.save();
-                    } else {
-                        // Si no existe, crearla y vincular el food
-                        let newCat = await Category.create({
-                            name: cat,
-                            foods: [food._id],
-                        });
-                        await newCat.save();
-                    }
-                }
                 return res.status(201).json({
                     Food: food,
                     success: true,
