@@ -13,6 +13,11 @@ async function formidableMiddleware(req, res, next) {
         const email = fields?.email?.[0].toString();
         const password = fields?.password?.[0].toString();
         if (err) { return next(err); }
+        if (!role && !is_online && !is_active && !email && !password) {
+            req.files = files;
+            req.body = { name };
+            return next();
+        }
         if (!name && !role && !is_online && !is_active && !photo) {
             req.files = files;
             req.body = { email, password };

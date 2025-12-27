@@ -40,3 +40,12 @@ export const userSignIn = Joi.object({
     "string.empty": "Password required",
   }),
 });
+
+export const userUpdate = Joi.object({
+  name: Joi.string().min(3).messages({
+    "string.min": "Ingresa al menos 3 caracteres",
+  }),
+  photo: Joi.string().uri().messages({
+    "string.uri": "Invalid photo",
+  }),
+});

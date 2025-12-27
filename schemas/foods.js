@@ -1,10 +1,6 @@
 import Joi from "joi-oid";
 
 export const foodSchema = Joi.object({
-  user_id: Joi.objectId().required().messages({
-    "any.required": "Registrate ahora, y comienza a crear tus menús",
-    "string.required": "Registrate ahora, y comienza a crear tus menús",
-  }),
   name: Joi.string().required().messages({
     "any.required": "Faltó el nombre del plato",
     "string.empty": "Faltó el nombre del plato",
@@ -23,17 +19,10 @@ export const foodSchema = Joi.object({
     "any.required": "Faltó el precio",
     "string.empty": "Faltó el precio",
   }),
-  category: Joi.array()
-    .items(Joi.string().messages({
-      "string.empty": "Cada categoría debe ser un texto válido",
-    }))
-    .min(1)
-    .required()
-    .messages({
-      "any.required": "Faltó la categoría",
-      "array.min": "Debes seleccionar al menos una categoría",
-      "array.base": "Categoría inválida, debe ser un array",
-    }),
+  category: Joi.string().required().messages({
+    "any.required": "Faltó la categoría",
+    "string.empty": "Faltó la categoría",
+  }),
   sub_category: Joi.string().required().messages({
     "any.required": "Faltó la sub categoría",
     "string.empty": "Faltó la sub categoría",

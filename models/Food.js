@@ -5,8 +5,8 @@ let schema = new Schema(
     name: { type: String, required: true },
     description: { type: String, required: true },
     category: { type: String, required: true },
+    sub_category: { type: String, required: true },
     price: { type: Number, required: true },
-    allergens: { type: Array, required: false },
     user_id: { type: Types.ObjectId, ref: "User", required: true },
   },
   {
