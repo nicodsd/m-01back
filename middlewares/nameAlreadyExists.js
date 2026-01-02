@@ -1,6 +1,6 @@
 import SubCategory from "../models/SubCategory.js";
 import Food from "../models/Food.js";
-import User from "../models/User.js";
+import User from "../models/UserAuth.js";
 const nameSubCategoryAlreadyExist = async function (req, res, next) {
     let name = req.body.name;
     let user_id = req.params.user_id;

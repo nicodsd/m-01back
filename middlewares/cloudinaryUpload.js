@@ -10,10 +10,16 @@ async function uploadToCloudinaryUser(filePath) {
   });
   return result.secure_url;
 }
+async function uploadToCloudinaryCover(filePath) {
+  const result = await cloudinary.uploader.upload(filePath, {
+    folder: "covers",
+  });
+  return result.secure_url;
+}
 async function uploadToCloudinaryFood(filePath) {
   const result = await cloudinary.uploader.upload(filePath, {
     folder: "foods",
   });
   return result.secure_url;
 }
-export { uploadToCloudinaryUser, uploadToCloudinaryFood };
+export { uploadToCloudinaryUser, uploadToCloudinaryCover, uploadToCloudinaryFood };

@@ -1,4 +1,4 @@
-import User from "../models/User.js";
+import User from "../models/UserAuth.js";
 async function accountExistsSignIn(req, res, next) {
   const reqEmail = req.body.email;
   const user = await User.findOne({ email: reqEmail });

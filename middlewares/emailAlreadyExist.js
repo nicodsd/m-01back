@@ -1,4 +1,4 @@
-import User from "../models/User.js";
+import User from "../models/UserAuth.js";
 export default async function emailAlreadyExist(req, res, next) {
   let user = req.body.email.toLowerCase();
   try {

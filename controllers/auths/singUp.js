@@ -1,4 +1,4 @@
-import User from "../../models/User.js";
+import User from "../../models/UserAuth.js";
 import jwt from "jsonwebtoken";
 let $key = process.env.JWT_SECRET_KEY;
 export default async function signUp(req, res, next) {
@@ -6,7 +6,7 @@ export default async function signUp(req, res, next) {
     name: req.body.name,
     email: req.body.email,
     password: req.body.password,
-    photo: req.body.photo,
+    photo: req?.body?.photo || "https://res.cloudinary.com/dsruux0wb/image/upload/v1766854327/usuarios/p6knwg0l0wcbixzkhzqp.webp",
     role: req.body.role,
     is_online: false,
     is_active: false,

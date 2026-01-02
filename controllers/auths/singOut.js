@@ -1,4 +1,4 @@
-import User from "../../models/User.js";
+import User from "../../models/UserAuth.js";
 const signout = async (req, res, next) => {
   try {
     const id = req.user._id;

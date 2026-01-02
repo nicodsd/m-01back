@@ -1,4 +1,4 @@
-import User from '../../models/User.js';
+import User from '../../models/UserAuth.js';
 import Food from '../../models/Food.js';
 import SubCategory from '../../models/SubCategory.js';
 let createFoodByUserId = async (req, res, next) => {

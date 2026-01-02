@@ -1,4 +1,4 @@
-import User from "../../models/User.js";
+import User from "../../models/UserAuth.js";
 import jwt from "jsonwebtoken";
 const $key = process.env.JWT_SECRET_KEY;
 export default async function signin(req, res, next) {
