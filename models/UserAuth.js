@@ -15,7 +15,7 @@ let schema = new Schema(
     },
     photo: {
       type: String,
-      required: true,
+      required: false,
     },
     role: {
       type: Number,
@@ -28,6 +28,22 @@ let schema = new Schema(
     is_online: {
       type: Boolean,
       required: true,
+    },
+    phone: {
+      type: String,
+      required: false,
+    },
+    address: {
+      type: String,
+      required: false,
+    },
+    description: {
+      type: String,
+      required: false,
+    },
+    background: {
+      type: String,
+      required: false,
     },
   },
   {

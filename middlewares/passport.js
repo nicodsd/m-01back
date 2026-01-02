@@ -1,5 +1,5 @@
 import passportJwt from "passport-jwt";
-import User from "../models/User.js";
+import User from "../models/UserAuth.js";
 import passport from "passport";
 const cookieExtractor = (req) => {
   let token = null;

@@ -1,4 +1,4 @@
-import User from "../models/User.js";
+import User from "../models/UserAuth.js";
 export default async function nameAlreadyExist(req, res, next) {
     let user = req.body.name;
     try {
