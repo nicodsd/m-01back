@@ -9,6 +9,8 @@ import Visita from "./models/Visita.js";
 import indexRouter from "./routes/index.js";
 import { __dirname } from "./utils.js";
 import cookieParser from 'cookie-parser';
+import notFoundHandler from "./middlewares/notFoundHandler.js";
+import errorHandler from "./middlewares/errorHandler.js";
 const app = express();
 // Rate Limite, para limitar las peticiones al servidor
 const limiter = rateLimit({
@@ -31,26 +33,7 @@ morgan.token("ip", (req) => req.ip || req.connection.remoteAddress); */
 app.use(morgan("dev"));
 app.use(express.json());
 app.use("/api", indexRouter);
-/* app.get("/visitas", async (req, res) => {
-  const visitas = await Visita.find().sort({ fecha: -1 }).limit(100);
-  res.json(visitas);
-});
-app.use(
-  morgan(":ip :method :url :status :navegador", {
-    stream: {
-      write: async (line) => {
-        const [ip, metodo, url, status, navegador] = line.trim().split(" ");
-        const visita = new Visita({
-          ip,
-          metodo,
-          url,
-          status: parseInt(status),
-          navegador,
-          dispositivo: navegador.includes("Mobile") ? "Móvil" : "Escritorio",
-        });
-        await visita.save();
-      },
-    },
-  })
-); */
+
+app.use(notFoundHandler);
+app.use(errorHandler);
 export default app;

@@ -3,7 +3,6 @@ import SubCategory from "../models/SubCategory.js"
 import User from "../models/UserAuth.js"
 let read = async (req, res, next) => {
     let { id } = req.params
-    console.log(id)
     try {
         let user = await User.findById(id)
         let foods = await Food.find({ user_id: id })
