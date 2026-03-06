@@ -5,7 +5,6 @@ async function formidableMiddleware(req, res, next) {
         keepExtensions: true,
     });
     form.parse(req, (err, fields, files) => {
-        console.log(fields, files)
         const name = fields?.name?.[0].toString();
         const plan = fields?.plan?.[0].toString();
         const is_online = fields?.is_online === false;
@@ -23,7 +22,6 @@ async function formidableMiddleware(req, res, next) {
             req.body = {
                 name
             };
-            console.log(req.body)
             return next();
         }
         if (!name && !plan && !is_online && !is_active && !photo) {
@@ -47,7 +45,6 @@ async function formidableMiddleware(req, res, next) {
             description,
             phone
         };
-
         return next();
     });
 };

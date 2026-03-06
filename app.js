@@ -25,14 +25,15 @@ const limiter = rateLimit({
 
 const allowedOrigins = [
   process.env.FRONTEND_URL,
-  'https://qmenu.digital',
-  'https://m-01front.vercel.app' // Agregá tu URL de vercel por si las dudas
+  process.env.FRONT_URL_VERCEL,
+  process.env.FRONT_URL_VERCEL_BACKUP
 ];
 
 app.use(cors({
   origin: function (origin, callback) {
     // Permitir peticiones sin origen (como Postman o apps móviles) 
     // o si el origen está en la lista
+    console.log("🚀 Origen que llega:", origin);
     if (!origin || allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
