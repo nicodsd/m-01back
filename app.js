@@ -22,7 +22,27 @@ const limiter = rateLimit({
     });
   },
 });
-app.use(cors({ origin: process.env.FRONTEND_URL, credentials: true }));
+
+const allowedOrigins = [
+  process.env.FRONTEND_URL,
+  'https://qmenu.digital',
+  'https://m-01front.vercel.app' // Agregá tu URL de vercel por si las dudas
+];
+
+app.use(cors({
+  origin: function (origin, callback) {
+    // Permitir peticiones sin origen (como Postman o apps móviles) 
+    // o si el origen está en la lista
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('No permitido por CORS'));
+    }
+  },
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  credentials: true
+}));
+
 app.use(limiter);
 app.use(cookieParser());
 app.set("views", path.join(__dirname, "views"));
