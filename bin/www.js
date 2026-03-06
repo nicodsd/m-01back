@@ -19,7 +19,7 @@ const normalizePort = (val) => {
   return false;
 };
 
-const port = normalizePort(process.env.PORT || "3000");
+const port = process.env.PORT || 3000
 
 app.set("port", port);
 
@@ -29,15 +29,14 @@ const server = http.createServer(app);
 // Función principal con async/await
 const startServer = async () => {
   try {
-    server.listen(port, () => {
+    // Escuchar en el puerto y en '0.0.0.0'
+    server.listen(port, '0.0.0.0', () => {
       const addr = server.address();
-      const bind =
-        typeof addr === "string" ? `pipe ${addr}` : `port ${addr.port}`;
-      debug(`Listening on ${bind}`);
-      console.log(`✅ Servidor corriendo en http://localhost:${port}/api`);
+      const bind = typeof addr === 'string' ? `pipe ${addr}` : `port ${addr.port}`;
+      console.log(`✅ Servidor escuchando en ${bind}`);
     });
   } catch (error) {
-    console.log("ERRRROROROR", error)
+    console.log("ERRRROROROR", error);
     onError(error);
   }
 };
@@ -45,7 +44,7 @@ const startServer = async () => {
 // Manejo de errores
 const onError = (error) => {
   if (error.syscall !== "listen") throw error;
-  
+
   const bind = typeof port === "string" ? `Pipe ${port}` : `Port ${port}`;
 
   switch (error.code) {

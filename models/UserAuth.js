@@ -17,8 +17,8 @@ let schema = new Schema(
       type: String,
       required: false,
     },
-    role: {
-      type: Number,
+    plan: {
+      type: String,
       required: true,
     },
     is_active: {
