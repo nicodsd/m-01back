@@ -2,21 +2,19 @@ import Food from "../models/Food.js"
 import SubCategory from "../models/SubCategory.js"
 import User from "../models/UserAuth.js"
 let read = async (req, res, next) => {
-    let { id } = req.params
+    let { name } = req.params
+    name = name.replace(/-/g, " ")
+    console.log(name)
     try {
-        let user = await User.findById(id)
-        let foods = await Food.find({ user_id: id })
-        let categories = await SubCategory.find({ user_id: id })
+        let user = await User.findOne({ name: name })
+        console.log(user)
+        let foods = await Food.find({ user_id: user._id })
+        console.log(foods)
+        let categories = await SubCategory.find({ user_id: user._id })
         let data = {
             name: user.name,
             photo: user.photo,
-            foodDescription: foods.description,
-            foodName: foods.name,
-            foodPrice: foods.price,
-            foodImage: foods.image,
-            foodCategory: foods.category,
-            foodSubCategory: foods.subCategory,
-            foodId: foods._id,
+            foods,
             categories
         }
         return res.status(200)

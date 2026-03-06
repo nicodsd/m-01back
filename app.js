@@ -32,7 +32,7 @@ app.set("view engine", "ejs");
 morgan.token("ip", (req) => req.ip || req.connection.remoteAddress); */
 app.use(morgan("dev"));
 app.use(express.json());
-app.use("/api", indexRouter);
+app.use("/", indexRouter);
 
 app.use(notFoundHandler);
 app.use(errorHandler);

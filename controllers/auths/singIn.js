@@ -11,14 +11,14 @@ export default async function signin(req, res, next) {
     let user = {
       id: userFound._id,
       name: userFound.name,
+      plan: userFound.plan,
       email: userFound.email,
       photo: userFound.photo,
-      role: userFound.role,
       is_online: userFound.is_online,
       is_active: userFound.is_active,
     };
     const token = jwt.sign(
-      { _id: userFound._id, email: userFound.email, role: userFound.role },
+      { _id: userFound._id, email: userFound.email, plan: userFound.plan },
       $key,
       { expiresIn: 60 * 60 * 24 } // 1 día
     );

@@ -38,7 +38,7 @@ export const userSignUp = Joi.object({
     "string.empty": "Background required",
     "string.uri": "Invalid background",
   }),
-  role: Joi.number().required(),
+  plan: Joi.string().required(),
   is_active: Joi.boolean().required(),
   is_online: Joi.boolean().required(),
   is_verified: Joi.boolean(),
