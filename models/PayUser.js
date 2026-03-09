@@ -5,7 +5,7 @@ let schema = new Schema(
   {
     email: { type: String, required: true },
     password: { type: String, required: true },
-    role: {
+    plan: {
       type: Number,
       required: true,
     },

@@ -1,51 +1,48 @@
 import formidable from "formidable";
+
 async function formidableMiddleware(req, res, next) {
-    const form = formidable({
-        multiples: false,
-        keepExtensions: true,
+  const form = formidable({
+    multiples: false,
+    keepExtensions: true,
+  });
+
+  form.parse(req, (err, fields, files) => {
+    if (err) return next(err);
+
+    const body = {};
+
+    const getFieldValue = (field) =>
+      fields[field] ? fields[field][0].toString() : undefined;
+
+    const textFields = [
+      "name",
+      "plan",
+      "location",
+      "description",
+      "phone",
+      "email",
+      "password",
+    ];
+
+    textFields.forEach((field) => {
+      const value = getFieldValue(field);
+      if (value !== undefined) body[field] = value;
     });
-    form.parse(req, (err, fields, files) => {
-        const name = fields?.name?.[0].toString();
-        const plan = fields?.plan?.[0].toString();
-        const is_online = fields?.is_online === false;
-        const is_active = fields?.is_active === false;
-        const photo = files?.photo?.[0];
-        const cover = files?.cover?.[0];
-        const location = fields?.location?.[0].toString();
-        const description = fields?.description?.[0].toString();
-        const phone = fields?.phone?.[0].toString();
-        const email = fields?.email?.[0].toString();
-        const password = fields?.password?.[0].toString();
-        if (err) { return next(err); }
-        if (!plan && !is_online && !is_active && !email && !password) {
-            req.files = files;
-            req.body = {
-                name
-            };
-            return next();
-        }
-        if (!name && !plan && !is_online && !is_active && !photo) {
-            req.body = {
-                email,
-                password
-            };
-            return next();
-        }
-        req.files = files;
-        req.body = {
-            name,
-            plan,
-            is_online,
-            is_active,
-            email,
-            password,
-            photo,
-            cover,
-            location,
-            description,
-            phone
-        };
-        return next();
-    });
-};
+
+    // Manejo especial para booleanos
+    if (fields.is_online !== undefined)
+      body.is_online =
+        fields.is_online[0] === "true" || fields.is_online[0] === "1";
+    if (fields.is_active !== undefined)
+      body.is_active =
+        fields.is_active[0] === "true" || fields.is_active[0] === "1";
+
+    req.files = files;
+
+    req.body = body;
+    
+    return next();
+  });
+}
+
 export default formidableMiddleware;
