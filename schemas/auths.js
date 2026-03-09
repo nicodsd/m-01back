@@ -16,33 +16,31 @@ export const userSignUp = Joi.object({
     "string.empty": "Password required",
     "string.min": "Ingresa al menos 8 caracteres",
   }),
-  photo: Joi.string().uri().messages({
+
+  photo: Joi.any().required().messages({
     "any.required": "Photo required",
-    "string.empty": "Photo required",
-    "string.uri": "Invalid photo",
   }),
-  phone: Joi.string().messages({
-    "any.required": "Phone required",
+  cover: Joi.any().optional().messages({
+    "any.required": "Background required",
+  }),
+
+  phone: Joi.string().allow("", null).optional().messages({
     "string.empty": "Phone required",
   }),
-  address: Joi.string().messages({
-    "any.required": "Address required",
+  location: Joi.string().allow("", null).optional().messages({
     "string.empty": "Address required",
   }),
-  description: Joi.string().messages({
-    "any.required": "Description required",
+  description: Joi.string().allow("", null).optional().messages({
     "string.empty": "Description required",
   }),
-  background: Joi.string().uri().messages({
-    "any.required": "Background required",
-    "string.empty": "Background required",
-    "string.uri": "Invalid background",
-  }),
+
   plan: Joi.string().required(),
-  is_active: Joi.boolean().required(),
-  is_online: Joi.boolean().required(),
-  is_verified: Joi.boolean(),
-  verify_code: Joi.string(),
+
+  is_active: Joi.any().required(),
+  is_online: Joi.any().required(),
+
+  is_verified: Joi.boolean().default(false),
+  verify_code: Joi.string().allow("", null),
   notifications: Joi.any(),
 });
 
@@ -59,10 +57,23 @@ export const userSignIn = Joi.object({
 });
 
 export const userUpdate = Joi.object({
-  name: Joi.string().min(3).messages({
-    "string.min": "Ingresa al menos 3 caracteres",
+  name: Joi.string().min(3).max(20).messages({
+    "string.min": "Ingresa al menos 3 caracteres.",
+    "string.max": "Ingresa como máximo 20 caracteres.",
+  }),
+  location: Joi.string().min(5).max(20).messages({
+    "string.min": "Ingresa al menos 5 caracteres.",
+    "string.max": "Ingresa como máximo 20 caracteres.",
+  }),
+  description: Joi.string().min(5).max(30).messages({
+    "string.min": "Ingresa al menos 5 caracteres.",
+    "string.max": "Ingresa como máximo 30 caracteres.",
+  }),
+  phone: Joi.string().min(10).max(10).messages({
+    "string.min": "Ingresa un numero válido.",
+    "string.max": "Ingresa un numero válido.",
   }),
   photo: Joi.string().uri().messages({
-    "string.uri": "Invalid photo",
+    "string.uri": "Ingresa una URL válida para la foto.",
   }),
 });

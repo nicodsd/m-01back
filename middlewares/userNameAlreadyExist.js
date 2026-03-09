@@ -1,15 +1,23 @@
 import User from "../models/UserAuth.js";
 export default async function nameAlreadyExist(req, res, next) {
-    let user = req.body.name;
+  const { name } = req.body;
+    const { id } = req.params;
+
     try {
-        user = await User.findOne({ name: user });
-        if (user) {
+        const exists = await User.findOne({ 
+            name: name, 
+            _id: { $ne: id }
+        });
+
+        if (exists) {
             return res.status(409).json({
-                message: "Ese nombre ya existe",
+                success: false,
+                message: "El nombre ya está siendo utilizado por otro usuario."
             });
         }
+
+        next();
     } catch (error) {
-        return next(error);
+        next(error);
     }
-    next();
 }

@@ -33,7 +33,7 @@ let schema = new Schema(
       type: String,
       required: false,
     },
-    address: {
+    location: {
       type: String,
       required: false,
     },
@@ -41,7 +41,7 @@ let schema = new Schema(
       type: String,
       required: false,
     },
-    background: {
+    cover: {
       type: String,
       required: false,
     },

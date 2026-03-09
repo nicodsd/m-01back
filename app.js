@@ -31,20 +31,23 @@ const allowedOrigins = [
 
 app.use(cors({
   origin: function (origin, callback) {
-    // Permitir peticiones sin origen (como Postman o apps móviles) 
-    // o si el origen está en la lista
+    // Log para debugear (mantenelo por ahora)
     console.log("🚀 Origen que llega:", origin);
+
+    // Si no hay origen (Postman, Server-side, etc) o está en la lista, permitimos
     if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error('No permitido por CORS'));
+      return callback(null, true);
     }
+
+    // Si llega un origen pero no está en la lista
+    console.error("❌ Origen RECHAZADO por CORS:", origin);
+    return callback(new Error('No permitido por CORS'), false);
   },
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], // Agregamos OPTIONS por las dudas
   credentials: true
 }));
 
-app.use(limiter);
+//app.use(limiter);
 app.use(cookieParser());
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
