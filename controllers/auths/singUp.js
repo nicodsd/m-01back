@@ -10,7 +10,7 @@ export default async function signUp(req, res, next) {
       req?.body?.photo ||
       "https://res.cloudinary.com/dsruux0wb/image/upload/v1766854327/usuarios/p6knwg0l0wcbixzkhzqp.webp",
     cover: req?.body?.cover || "",
-    plan: req?.body?.plan || "free",
+    plan: req?.body?.plan || "",
     location: req?.body?.location || "",
     description: req?.body?.description || "",
     phone: req?.body?.phone || "",
@@ -18,6 +18,7 @@ export default async function signUp(req, res, next) {
     is_active: false,
     createdAt: new Date(),
   };
+  console.log("Datos recibidos para registro:", userData);
   try {
     let newUser = new User(userData);
     await newUser.save();

@@ -21,18 +21,18 @@ const router = express.Router();
 router.post(
   "/signup",
   formIdable,
-  validator(userSignUp),
   nameAlreadyExist,
   emailAlreadyExist,
   createHash,
   cloudinaryUploadMiddlewareById,
+  validator(userSignUp),
   signUp,
 );
 router.post(
   "/signin",
   formIdable,
   accountExistsEmailSignIn,
-  accountIsoline,
+  //accountIsoline,
   validatePassword,
   validator(userSignIn),
   signin,

@@ -9,6 +9,11 @@ let read = async (req, res, next) => {
         let foods = await Food.find({ user_id: user._id })
         let categories = await SubCategory.find({ user_id: user._id })
         let data = {
+            plan: user.plan,
+            location: user.location,
+            description: user.description,
+            phone: user.phone,
+            cover: user.cover,
             name: user.name,
             photo: user.photo,
             foods,

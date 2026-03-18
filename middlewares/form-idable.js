@@ -29,7 +29,6 @@ async function formidableMiddleware(req, res, next) {
       if (value !== undefined) body[field] = value;
     });
 
-    // Manejo especial para booleanos
     if (fields.is_online !== undefined)
       body.is_online =
         fields.is_online[0] === "true" || fields.is_online[0] === "1";
@@ -38,9 +37,7 @@ async function formidableMiddleware(req, res, next) {
         fields.is_active[0] === "true" || fields.is_active[0] === "1";
 
     req.files = files;
-
     req.body = body;
-    
     return next();
   });
 }

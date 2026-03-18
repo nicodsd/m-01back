@@ -28,3 +28,26 @@ export const foodSchema = Joi.object({
     "string.empty": "Faltó la sub categoría",
   }),
 });
+
+export const foodSchemaUpdate = Joi.object({
+  name: Joi.string().optional().messages({
+    "string.empty": "Faltó el nombre del plato",
+  }),
+  photo: Joi.string().uri().optional().messages({
+    "string.empty": "Faltó la foto",
+    "any.invalid": "URL invalid",
+  }),
+  description: Joi.string().min(10).optional().messages({
+    "string.required": "Faltó la descripción del plato",
+    "string.min": "La descripción del plato es muy corta",
+  }),
+  price: Joi.number().optional().messages({
+    "string.empty": "Faltó el precio",
+  }),
+  category: Joi.string().optional().messages({
+    "string.empty": "Faltó la categoría",
+  }),
+  sub_category: Joi.string().optional().messages({
+    "string.empty": "Faltó la sub categoría",
+  }),
+});

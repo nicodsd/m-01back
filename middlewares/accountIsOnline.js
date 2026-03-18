@@ -6,7 +6,8 @@ async function accountIsOnline(req, res, next) {
     return res.status(400).json({
       succes: false,
       statusCode: 400,
-      message: "Account is already signed in from another device",
+      message:
+        "Esta cuenta ya está en uso ¿Quieres iniciar sesión en este dispositivo?",
     });
   }
   next();
