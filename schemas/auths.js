@@ -17,11 +17,11 @@ export const userSignUp = Joi.object({
     "string.min": "Ingresa al menos 8 caracteres",
   }),
 
-  photo: Joi.any().required().messages({
-    "any.required": "Photo required",
+  photo: Joi.string().uri().required().messages({
+    "string.uri": "Ingresa una URL válida para la foto.",
   }),
-  cover: Joi.any().optional().messages({
-    "any.required": "Background required",
+  cover: Joi.string().uri().optional().messages({
+    "string.uri": "Ingresa una URL válida para la portada.",
   }),
 
   phone: Joi.string().allow("", null).optional().messages({

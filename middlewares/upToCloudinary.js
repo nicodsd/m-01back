@@ -5,7 +5,6 @@ import {
 } from "../middlewares/cloudinaryUpload.js";
 
 async function cloudinaryUploadMiddlewareById(req, res, next) {
-  // Si no hay archivos, seguimos adelante
   if (!req.files) return next();
 
   try {
@@ -30,7 +29,6 @@ async function cloudinaryUploadMiddlewareById(req, res, next) {
 
     next();
   } catch (error) {
-    console.error("Error al subir a Cloudinary:", error);
     res
       .status(500)
       .json({ success: false, message: "Error al procesar imágenes" });
@@ -39,15 +37,15 @@ async function cloudinaryUploadMiddlewareById(req, res, next) {
 
 async function cloudinaryUploadMiddlewareFood(req, res, next) {
   try {
-    if (!req.files) return next();
-    const fileArray = Object.values(req.files.cover);
+    if (!req.files || Object.keys(req.files).length === 0) return next();
+    const fileArray = Object.values(req.files.photo);
     const urls = await Promise.all(
       fileArray.map(async (file) => {
         return await uploadToCloudinaryFood(file.filepath);
       }),
     );
     const img = urls;
-    req.body.cover = img[0].toString();
+    req.body.photo = img[0].toString();
     next();
   } catch (error) {
     console.error("Error al subir a Cloudinary:", error);
