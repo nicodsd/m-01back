@@ -13,6 +13,8 @@ let createFoodByUserId = async (req, res, next) => {
         name,
         description,
         price,
+        is_promo: false,
+        promo_price: null,
         sub_category: "",
         category,
       };

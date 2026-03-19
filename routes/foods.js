@@ -7,7 +7,7 @@ import passport from "../middlewares/passport.js";
 import formIdableFoods from "../middlewares/formIdableFoods.js";
 import validator from "../middlewares/validator.js";
 import { cloudinaryUploadMiddlewareFood } from "../middlewares/upToCloudinary.js";
-import { foodSchema, foodSchemaUpdate } from "../schemas/foods.js";
+import { foodSchema, foodSchemaUpdate, foodSchemaUpdatPromo } from "../schemas/foods.js";
 import { nameAlreadyExistFood } from "../middlewares/nameAlreadyExists.js";
 let router = Router();
 router.get("/", read);
@@ -33,4 +33,10 @@ router.delete(
   passport.authenticate("jwt", { session: false }),
   deleteFood,
 );
+router.put(
+  "/promo/:id",
+  passport.authenticate("jwt", { session: false }),
+  validator(foodSchemaUpdatPromo),
+  updateFood,
+)
 export default router;
