@@ -15,6 +15,12 @@ export const foodSchema = Joi.object({
     "string.required": "Faltó la descripción del plato",
     "string.min": "La descripción del plato es muy corta",
   }),
+  promo_price: Joi.number().optional().messages({
+    "string.empty": "Faltó el precio",
+  }),
+  is_promo: Joi.boolean().optional().messages({
+    "boolean.empty": "Faltó el estado de la promo",
+  }),
   price: Joi.number().required().messages({
     "any.required": "Faltó el precio",
     "string.empty": "Faltó el precio",
@@ -49,5 +55,14 @@ export const foodSchemaUpdate = Joi.object({
   }),
   sub_category: Joi.string().optional().messages({
     "string.empty": "Faltó la sub categoría",
+  }),
+});
+
+export const foodSchemaUpdatPromo = Joi.object({
+  promo_price: Joi.number().optional().messages({
+    "string.empty": "Faltó el precio",
+  }),
+  is_promo: Joi.boolean().required().messages({
+    "boolean.empty": "Faltó el estado de la promo",
   }),
 });

@@ -11,6 +11,7 @@ export const userSignUp = Joi.object({
     "string.empty": "An email is required",
     "string.email": "Ingresa un email valido",
   }),
+
   password: Joi.string().required().min(8).messages({
     "any.required": "Password required",
     "string.empty": "Password required",
