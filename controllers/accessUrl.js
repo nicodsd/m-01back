@@ -16,6 +16,9 @@ let read = async (req, res, next) => {
             cover: user.cover,
             name: user.name,
             photo: user.photo,
+            instagram: user.instagram,
+            tiktok: user.tiktok,
+            facebook: user.facebook,
             foods,
             categories
         }

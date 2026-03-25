@@ -22,6 +22,9 @@ async function formidableMiddleware(req, res, next) {
       "phone",
       "email",
       "password",
+      "instagram",
+      "tiktok",
+      "facebook",
     ];
 
     textFields.forEach((field) => {

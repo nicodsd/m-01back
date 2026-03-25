@@ -23,15 +23,10 @@ export const subCategorySchema = Joi.object({
         "any.required": "Registrate ahora, y comienza a crear tus menús",
         "string.required": "Registrate ahora, y comienza a crear tus menús",
     }),
-    names_sub_category: Joi.array()
-        .items(Joi.string().messages({
-            "string.empty": "Cada subcategoría debe ser un texto válido",
-        }))
-        .min(1)
+    name: Joi.string()
         .required()
         .messages({
             "any.required": "Faltó la subcategoría",
-            "array.min": "Debes seleccionar al menos una subcategoría",
-            "array.base": "Subcategoría inválida, debe ser un array",
+            "string.empty": "Faltó la subcategoría",
         }),
 });

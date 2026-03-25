@@ -9,7 +9,8 @@ import { categorySchema, categorySchemaUpdate, subCategorySchema } from "../sche
 let router = Router();
 router.get("/:user_id", readCategory);
 router.get("/sub/:user_id", readSubCategory);
+
 router.post("/:user_id", passport.authenticate("jwt", { session: false }), validator(categorySchema), createCategory);
-router.post("/sub/:user_id", passport.authenticate("jwt", { session: false }), nameAlreadyExist, validator(subCategorySchema), createSubCategory);
+router.post("/sub/:user_id", passport.authenticate("jwt", { session: false }), validator(subCategorySchema), createSubCategory);
 router.delete("/:id/:user_id", passport.authenticate("jwt", { session: false }), validator(categorySchemaUpdate), destroy);
 export default router;

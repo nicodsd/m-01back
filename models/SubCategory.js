@@ -7,12 +7,6 @@ const subCategorySchema = new Schema(
             ref: "users",
             required: true,
         },
-        foods: [
-            {
-                type: Schema.Types.ObjectId,
-                ref: "foods",
-            },
-        ],
     },
     {
         timestamps: true,

@@ -45,6 +45,18 @@ let schema = new Schema(
       type: String,
       required: false,
     },
+    instagram: {
+      type: String,
+      required: false,
+    },
+    tiktok: {
+      type: String,
+      required: false,
+    },
+    facebook: {
+      type: String,
+      required: false,
+    },
   },
   {
     timestamps: true,

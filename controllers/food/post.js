@@ -4,6 +4,7 @@ import SubCategory from "../../models/SubCategory.js";
 let createFoodByUserId = async (req, res, next) => {
   try {
     let { photo, name, description, category, price, sub_category } = req.body;
+
     let user_id = req.params.user_id;
     let user = await User.findOne({ _id: user_id });
     if (user) {

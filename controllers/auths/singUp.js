@@ -14,6 +14,9 @@ export default async function signUp(req, res, next) {
     location: req?.body?.location || "",
     description: req?.body?.description || "",
     phone: req?.body?.phone || "",
+    instagram: req?.body?.instagram || "",
+    tiktok: req?.body?.tiktok || "",
+    facebook: req?.body?.facebook || "",
     is_online: false,
     is_active: false,
     createdAt: new Date(),
@@ -40,6 +43,9 @@ export default async function signUp(req, res, next) {
       plan: newUser?.plan,
       is_online: newUser.is_online,
       is_active: newUser.is_active,
+      instagram: newUser?.instagram || "",
+      tiktok: newUser?.tiktok || "",
+      facebook: newUser?.facebook || "",
       createdAt: newUser.createdAt,
     };
     return res
