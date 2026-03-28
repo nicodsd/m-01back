@@ -99,3 +99,10 @@ export const userUpdate = Joi.object({
     "string.uri": "Ingresa una URL válida para Facebook.",
   }),
 });
+
+export const userUpdateIsOnline = Joi.object({
+  is_online: Joi.any().required().messages({
+    "any.required": "Faltó el estado de la cuenta",
+    "any.empty": "Faltó el estado de la cuenta",
+  }),
+});

@@ -59,10 +59,15 @@ export const foodSchemaUpdate = Joi.object({
 });
 
 export const foodSchemaUpdatPromo = Joi.object({
-  promo_price: Joi.number().optional().messages({
+  promo_price: Joi.number().required().messages({
+    "any.required": "Faltó el precio",
     "string.empty": "Faltó el precio",
   }),
   is_promo: Joi.boolean().required().messages({
+    "any.required": "Faltó el estado de la promo",
     "boolean.empty": "Faltó el estado de la promo",
+  }),
+  color_promo: Joi.string().optional().messages({
+    "string.empty": "Faltó el color de la promo",
   }),
 });

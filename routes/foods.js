@@ -21,7 +21,7 @@ router.post(
   createFoodByUserId,
 );
 router.put(
-  "/update/:id/:user_id/",
+  "/update/:id",
   passport.authenticate("jwt", { session: false }),
   formIdableFoods,
   cloudinaryUploadMiddlewareFood,

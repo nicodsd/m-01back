@@ -4,7 +4,6 @@ export default async function updateUser(req, res, next) {
     const { id } = req.params;
     const updates = req.body;
 
-    console.log("body recibido en updateUser:", updates);
     const user = await User.findByIdAndUpdate(id, updates, {
       new: true,
       runValidators: true,

@@ -14,7 +14,8 @@ import formIdable from "../middlewares/form-idable.js";
 import { cloudinaryUploadMiddlewareById } from "../middlewares/upToCloudinary.js";
 import nameAlreadyExist from "../middlewares/userNameAlreadyExist.js";
 import updateUser from "../controllers/payAuth/updateUser.js";
-import { userSignUp, userSignIn, userUpdate } from "../schemas/auths.js";
+import isOnline from "../controllers/auths/isOnline.js";
+import { userSignUp, userSignIn, userUpdate, userUpdateIsOnline } from "../schemas/auths.js";
 //INITIALIZE
 const router = express.Router();
 //ENDPOINTS AUTH - REGISTER, LOGIN, LOGOUT
@@ -32,7 +33,7 @@ router.post(
   "/signin",
   formIdable,
   accountExistsEmailSignIn,
-  //accountIsoline,
+  accountIsoline,
   validatePassword,
   validator(userSignIn),
   signin,
@@ -51,6 +52,11 @@ router.put(
   cloudinaryUploadMiddlewareById,
   validator(userUpdate),
   updateUser,
+);
+router.put(
+  "/update/is_online/:email",
+  validator(userUpdateIsOnline),
+  isOnline,
 );
 //ENDPOINTS AUTH - ADMIN
 router.post("/admin", signin);
