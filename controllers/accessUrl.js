@@ -20,7 +20,8 @@ let read = async (req, res, next) => {
             tiktok: user.tiktok,
             facebook: user.facebook,
             foods,
-            categories
+            categories,
+            template_id: user?.template_id
         }
         return res.status(200)
             .json({

@@ -15,7 +15,8 @@ import { cloudinaryUploadMiddlewareById } from "../middlewares/upToCloudinary.js
 import nameAlreadyExist from "../middlewares/userNameAlreadyExist.js";
 import updateUser from "../controllers/payAuth/updateUser.js";
 import isOnline from "../controllers/auths/isOnline.js";
-import { userSignUp, userSignIn, userUpdate, userUpdateIsOnline } from "../schemas/auths.js";
+import updateTemplate from "../controllers/payAuth/updateTemplate.js";
+import { userSignUp, userSignIn, userUpdate, userUpdateIsOnline, userTemplateUpdate } from "../schemas/auths.js";
 //INITIALIZE
 const router = express.Router();
 //ENDPOINTS AUTH - REGISTER, LOGIN, LOGOUT
@@ -58,6 +59,14 @@ router.put(
   validator(userUpdateIsOnline),
   isOnline,
 );
+
+router.put(
+  "/update/template/:id",
+  passport.authenticate("jwt", { session: false }),
+  validator(userTemplateUpdate),
+  updateTemplate,
+);
+
 //ENDPOINTS AUTH - ADMIN
 router.post("/admin", signin);
 //EXPORT

@@ -9,6 +9,7 @@ import validator from "../middlewares/validator.js";
 import { cloudinaryUploadMiddlewareFood } from "../middlewares/upToCloudinary.js";
 import { foodSchema, foodSchemaUpdate, foodSchemaUpdatPromo } from "../schemas/foods.js";
 import { nameAlreadyExistFood } from "../middlewares/nameAlreadyExists.js";
+import updateOrder from "../controllers/payAuth/updateOrder.js";
 let router = Router();
 router.get("/", read);
 router.post(
@@ -39,4 +40,9 @@ router.put(
   validator(foodSchemaUpdatPromo),
   updateFood,
 )
+router.put(
+  "/update-order",
+  passport.authenticate("jwt", { session: false }),
+  updateOrder,
+);
 export default router;

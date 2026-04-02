@@ -57,6 +57,10 @@ let schema = new Schema(
       type: String,
       required: false,
     },
+    template_id: {
+      type: String,
+      required: false,
+    },
   },
   {
     timestamps: true,

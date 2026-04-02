@@ -106,3 +106,16 @@ export const userUpdateIsOnline = Joi.object({
     "any.empty": "Faltó el estado de la cuenta",
   }),
 });
+/* 
+export const userUpdateIsVerified = Joi.object({
+  is_verified: Joi.any().required().messages({
+    "any.required": "Faltó el estado de la verificación",
+    "any.empty": "Faltó el estado de la verificación",
+  }),
+}); */
+
+export const userTemplateUpdate = Joi.object({
+  template_id: Joi.string().allow("", null).optional().messages({
+    "string.empty": "Faltó el template",
+  }),
+});

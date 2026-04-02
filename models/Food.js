@@ -10,6 +10,7 @@ let schema = new Schema(
     price: { type: Number, required: true },
     promo_price: { type: Number, required: false },
     user_id: { type: Types.ObjectId, ref: "User", required: true },
+    order: { type: Number, required: false, default: 0 },
   },
   {
     timestamps: true,

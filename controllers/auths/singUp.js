@@ -20,8 +20,8 @@ export default async function signUp(req, res, next) {
     is_online: false,
     is_active: false,
     createdAt: new Date(),
+    template_id: req?.body?.template_id || "",
   };
-  console.log("Datos recibidos para registro:", userData);
   try {
     let newUser = new User(userData);
     await newUser.save();
@@ -47,6 +47,7 @@ export default async function signUp(req, res, next) {
       tiktok: newUser?.tiktok || "",
       facebook: newUser?.facebook || "",
       createdAt: newUser.createdAt,
+      template_id: newUser?.template_id || "",
     };
     return res
       .status(200)

@@ -25,6 +25,7 @@ export default async function signin(req, res, next) {
       photo: userFound.photo,
       is_online: userFound.is_online,
       is_active: userFound.is_active,
+      template_id: userFound?.template_id || "",
     };
     const token = jwt.sign(
       { _id: userFound._id, email: userFound.email, plan: userFound.plan },
