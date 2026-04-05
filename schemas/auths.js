@@ -49,9 +49,9 @@ export const userSignUp = Joi.object({
   is_active: Joi.any().required(),
   is_online: Joi.any().required(),
 
-  is_verified: Joi.boolean().default(false),
-  verify_code: Joi.string().allow("", null),
-  notifications: Joi.any(),
+  /*   is_verified: Joi.boolean().default(false),
+    verify_code: Joi.string().allow("", null),
+    notifications: Joi.any(), */
 });
 
 export const userSignIn = Joi.object({

@@ -20,7 +20,7 @@ export default async function signUp(req, res, next) {
     is_online: false,
     is_active: false,
     createdAt: new Date(),
-    template_id: req?.body?.template_id || "",
+    template_id: req?.body?.template_id || "default",
   };
   try {
     let newUser = new User(userData);

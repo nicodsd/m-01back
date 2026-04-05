@@ -6,6 +6,12 @@ let read = async (req, res, next) => {
     name = name.replace(/-/g, " ")
     try {
         let user = await User.findOne({ name: name })
+        if (!user) {
+            return res.status(404).json({
+                success: false,
+                message: "Usuario no encontrado",
+            });
+        }
         let foods = await Food.find({ user_id: user._id })
         let categories = await SubCategory.find({ user_id: user._id })
         let data = {

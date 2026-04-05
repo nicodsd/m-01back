@@ -14,7 +14,8 @@ import formIdable from "../middlewares/form-idable.js";
 import { cloudinaryUploadMiddlewareById } from "../middlewares/upToCloudinary.js";
 import nameAlreadyExist from "../middlewares/userNameAlreadyExist.js";
 import updateUser from "../controllers/payAuth/updateUser.js";
-import isOnline from "../controllers/auths/isOnline.js";
+import isOnline from "../controllers/auths/isOnline.js"
+import { createSubscription } from "../controllers/subscriptionController.js";
 import updateTemplate from "../controllers/payAuth/updateTemplate.js";
 import { userSignUp, userSignIn, userUpdate, userUpdateIsOnline, userTemplateUpdate } from "../schemas/auths.js";
 //INITIALIZE
@@ -59,7 +60,10 @@ router.put(
   validator(userUpdateIsOnline),
   isOnline,
 );
-
+router.post(
+  "/subscribe",
+  createSubscription,
+);
 router.put(
   "/update/template/:id",
   passport.authenticate("jwt", { session: false }),
