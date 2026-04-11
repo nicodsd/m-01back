@@ -5,19 +5,21 @@ const client = new MercadoPagoConfig({
 });
 
 export const createSubscription = async (req, res) => {
+    console.log(req.body.plan)
     try {
+        const { reason, frequency, frequency_type, transaction_amount, currency_id, back_url, status } = req.body;
         const plan = new PreApprovalPlan(client);
 
         const result = await plan.create({
             body: {
-                reason: "QMenú - Plan Premium Mensual",
+                reason: reason,
                 auto_recurring: {
                     frequency: 1,
                     frequency_type: "months",
-                    transaction_amount: 10000, // Precio que definas
+                    transaction_amount: transaction_amount, // Precio que definas
                     currency_id: "ARS"
                 },
-                back_url: "https://www.tu-sitio.com/success", // Donde vuelve tras pagar
+                back_url: process.env.APP_URL, // Donde vuelve tras pagar
                 status: "active"
             }
         });
@@ -29,9 +31,8 @@ export const createSubscription = async (req, res) => {
     }
 };
 
-// controllers/subscriptionController.js
 export const cancelSubscription = async (req, res) => {
-    const { id } = req.params; // El ID de la suscripción a cancelar
+    const { id } = req.params;
     try {
         const subscription = new PreApproval(client);
 
