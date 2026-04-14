@@ -7,16 +7,8 @@ const signout = async (req, res, next) => {
       { is_online: false },
       { new: true }
     );
-    res.clearCookie("token", {
-      httpOnly: true,
-      secure: true,
-      sameSite: "none",
-    });
-    res.clearCookie("user", {
-      httpOnly: true,
-      secure: true,
-      sameSite: "none",
-    });
+    res.clearCookie("token");
+    res.clearCookie("user");
     return res.status(200).json({
       message: "User signed out successfully",
       success: true,
