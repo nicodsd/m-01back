@@ -11,7 +11,7 @@ export default async function nameAlreadyExist(req, res, next) {
         if (exists) {
             return res.status(409).json({
                 success: false,
-                message: "El nombre ya está siendo utilizado por otro usuario."
+                message: "Ese nombre ya existe."
             });
         }
 

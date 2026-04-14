@@ -12,10 +12,10 @@ async function accountExistsSignIn(req, res, next) {
     };
     return next();
   }
-  return res.status(400).json({
-    succes: false,
-    statusCode: 400,
-    message: "User doesn't exist",
+  return res.status(404).json({
+    success: false,
+    statusCode: 404,
+    message: "Usuario no encontrado",
   });
 }
 export default accountExistsSignIn;
