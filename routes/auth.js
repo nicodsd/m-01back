@@ -40,11 +40,13 @@ router.post(
   validator(userSignIn),
   signin,
 );
-router.post(
-  "/signout",
-  passport.authenticate("jwt", { session: false }),
-  signout,
-);
+router.post("/signout", (req, res) => {
+  res.clearCookie("token", {
+    httpOnly: true,
+    secure: true,
+    sameSite: "none"
+  }).status(200).json({ message: "Sesión cerrada" });
+});
 //ENDPOINTS AUTH - UPDATE
 router.put(
   "/update/:id",
