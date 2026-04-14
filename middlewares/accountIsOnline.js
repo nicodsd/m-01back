@@ -8,7 +8,7 @@ async function accountIsOnline(req, res, next) {
       statusCode: 409,
       alreadyLoggedIn: true,
       message:
-        "Esta cuenta ya está en uso ¿Quieres iniciar sesión en este dispositivo?",
+        "Esta cuenta ya está en uso ¿Quieres cerrar sesión?",
     });
   }
   next();
