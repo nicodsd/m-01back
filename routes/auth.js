@@ -18,11 +18,25 @@ import isOnline from "../controllers/auths/isOnline.js"
 import { createSubscription } from "../controllers/subscriptionController.js";
 import updateTemplate from "../controllers/payAuth/updateTemplate.js";
 import { userSignUp, userSignIn, userUpdate, userUpdateIsOnline, userTemplateUpdate } from "../schemas/auths.js";
+import rateLimit from "express-rate-limit";
+const authLimiter = rateLimit({
+  windowMs: 10 * 60 * 1000, // Ventana de 10 minutos
+  max: 10, // Solo 10 intentos de login/registro por ventana
+  standardHeaders: true,
+  legacyHeaders: false,
+  handler: (req, res) => {
+    res.status(429).json({
+      success: false,
+      message: "Demasiados intentos desde esta IP. Por favor, intenta de nuevo en 10 minutos."
+    });
+  }
+});
 //INITIALIZE
 const router = express.Router();
 //ENDPOINTS AUTH - REGISTER, LOGIN, LOGOUT
 router.post(
   "/signup",
+  authLimiter,
   formIdable,
   nameAlreadyExist,
   emailAlreadyExist,
@@ -33,6 +47,7 @@ router.post(
 );
 router.post(
   "/signin",
+  authLimiter,
   formIdable,
   accountExistsEmailSignIn,
   accountIsoline,
@@ -40,13 +55,10 @@ router.post(
   validator(userSignIn),
   signin,
 );
-router.post("/signout", (req, res) => {
-  res.clearCookie("token", {
-    httpOnly: true,
-    secure: true,
-    sameSite: "none"
-  }).status(200).json({ message: "Sesión cerrada" });
-});
+router.post(
+  "/signout",
+  signout,
+);
 //ENDPOINTS AUTH - UPDATE
 router.put(
   "/update/:id",
