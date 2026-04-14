@@ -8,7 +8,7 @@ function validatePassword(req, res, next) {
   return res.status(400).json({
     succes: false,
     statusCode: 400,
-    message: "Wrong credentials!",
+    message: "Contraseña incorrecta",
   });
 }
 export default validatePassword;

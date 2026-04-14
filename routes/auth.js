@@ -27,7 +27,7 @@ const authLimiter = rateLimit({
   handler: (req, res) => {
     res.status(429).json({
       success: false,
-      message: "Demasiados intentos desde esta IP. Por favor, intenta de nuevo en 10 minutos."
+      message: "Demasiados intentos. Por favor, intenta de nuevo en 10 minutos."
     });
   }
 });
@@ -47,7 +47,7 @@ router.post(
 );
 router.post(
   "/signin",
-  authLimiter,
+  /*   authLimiter, */
   formIdable,
   accountExistsEmailSignIn,
   accountIsoline,
@@ -57,6 +57,7 @@ router.post(
 );
 router.post(
   "/signout",
+  passport.authenticate("jwt", { session: false }),
   signout,
 );
 //ENDPOINTS AUTH - UPDATE
