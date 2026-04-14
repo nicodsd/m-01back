@@ -40,13 +40,10 @@ router.post(
   validator(userSignIn),
   signin,
 );
-router.post("/signout", (req, res) => {
-  res.clearCookie("token", {
-    httpOnly: true,
-    secure: true,
-    sameSite: "none"
-  }).status(200).json({ message: "Sesión cerrada" });
-});
+router.post(
+  "/signout",
+  signout,
+);
 //ENDPOINTS AUTH - UPDATE
 router.put(
   "/update/:id",
