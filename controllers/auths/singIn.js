@@ -40,6 +40,7 @@ export default async function signin(req, res, next) {
         secure: true,
         sameSite: "none",
         maxAge: 60 * 60 * 24 * 1000,
+        domain: ".qmenu.digital"
       })
       .json({
         success: true,

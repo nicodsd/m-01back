@@ -47,7 +47,7 @@ router.post(
 );
 router.post(
   "/signin",
-  /*   authLimiter, */
+  authLimiter,
   formIdable,
   accountExistsEmailSignIn,
   accountIsoline,
@@ -57,7 +57,6 @@ router.post(
 );
 router.post(
   "/signout",
-  passport.authenticate("jwt", { session: false }),
   signout,
 );
 //ENDPOINTS AUTH - UPDATE
