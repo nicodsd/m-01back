@@ -1,6 +1,5 @@
 import User from "../../models/UserAuth.js";
 const signout = async (req, res, next) => {
-  console.log(req.body)
   try {
     const userId = req.body.user_id;
 
@@ -15,10 +14,12 @@ const signout = async (req, res, next) => {
           domain: ".qmenu.digital",
           path: "/",
         }; */
+
     const cookieOptions = {
       httpOnly: true,
       secure: true,
       sameSite: "none",
+      domain: "qmenu.digital",
       path: "/",
     };
 
