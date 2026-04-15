@@ -33,6 +33,9 @@ export default async function signin(req, res, next) {
       { expiresIn: 60 * 60 * 24 }, // 1 día
     );
     await User.findByIdAndUpdate(userFound._id, { is_online: true });
+    const domainHost = process.env.FRONTEND_URL
+      ? process.env.FRONTEND_URL.replace(/^(https?:\/\/)/, "").split(":")[0]
+      : undefined;
     return res
       .status(200)
       .cookie("token", token, {
@@ -40,7 +43,7 @@ export default async function signin(req, res, next) {
         secure: true,
         sameSite: "none",
         maxAge: 60 * 60 * 24 * 1000,
-        domain: ".qmenu.digital"
+        domain: domainHost
       })
       .json({
         success: true,
