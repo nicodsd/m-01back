@@ -1,21 +1,28 @@
 import User from "../../models/UserAuth.js";
 const signout = async (req, res, next) => {
+  console.log(req.body)
   try {
-    // Intentamos sacar el ID del body si req.user no existe por el 401
-    const userId = req.user?._id || req.body.user_id;
+    const userId = req.body.user_id;
 
     if (userId) {
       await User.findByIdAndUpdate(userId, { is_online: false });
     }
 
+    /*     const cookieOptions = {
+          httpOnly: true,
+          secure: true,
+          sameSite: "none",
+          domain: ".qmenu.digital",
+          path: "/",
+        }; */
     const cookieOptions = {
       httpOnly: true,
       secure: true,
       sameSite: "none",
+      domain: ".qmenu.digital",
       path: "/",
     };
 
-    // Esto le dice al navegador: "borra esto"
     res.clearCookie("token", cookieOptions);
     res.clearCookie("user", cookieOptions);
 
