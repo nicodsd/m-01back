@@ -7,19 +7,10 @@ const signout = async (req, res, next) => {
       await User.findByIdAndUpdate(userId, { is_online: false });
     }
 
-    /*     const cookieOptions = {
-          httpOnly: true,
-          secure: true,
-          sameSite: "none",
-          domain: ".qmenu.digital",
-          path: "/",
-        }; */
-
     const cookieOptions = {
       httpOnly: true,
       secure: true,
       sameSite: "none",
-      domain: "qmenu.digital",
       path: "/",
     };
 

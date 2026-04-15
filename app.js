@@ -14,7 +14,7 @@ const app = express();
 app.set('trust proxy', 1);
 
 app.use(cors({
-  origin: [process.env.FRONTEND_URL, "https://qmenu.digital"],
+  origin: [process.env.FRONTEND_URL, "https://www.qmenu.digital"],
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   credentials: true
 }));
