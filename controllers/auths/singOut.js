@@ -1,35 +1,27 @@
 import User from "../../models/UserAuth.js";
 const signout = async (req, res, next) => {
-  console.log(req.cookies);
   try {
-    const id = req.cookies.user_id;
-    const userOffline = await User.findOneAndUpdate(
-      { _id: id },
-      { is_online: false },
-      { new: true }
-    );
-    const domainHost = process.env.FRONTEND_URL
-      ? process.env.FRONTEND_URL.replace(/^(https?:\/\/)/, "").split(":")[0]
-      : undefined;
+    // Intentamos sacar el ID del body si req.user no existe por el 401
+    const userId = req.user?._id || req.body.user_id;
 
-    res.clearCookie("token", {
+    if (userId) {
+      await User.findByIdAndUpdate(userId, { is_online: false });
+    }
+
+    const cookieOptions = {
       httpOnly: true,
       secure: true,
       sameSite: "none",
       path: "/",
-      domain: domainHost
-    });
-    res.clearCookie("user", {
-      httpOnly: true,
-      secure: true,
-      sameSite: "none",
-      path: "/",
-      domain: domainHost
-    });
+    };
+
+    // Esto le dice al navegador: "borra esto"
+    res.clearCookie("token", cookieOptions);
+    res.clearCookie("user", cookieOptions);
+
     return res.status(200).json({
-      message: "User signed out successfully",
       success: true,
-      user: userOffline?.name,
+      message: "Cookies eliminadas"
     });
   } catch (error) {
     next(error);

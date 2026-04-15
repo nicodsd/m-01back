@@ -13,23 +13,12 @@ import errorHandler from "./middlewares/errorHandler.js";
 const app = express();
 app.set('trust proxy', 1);
 
-const allowedOrigins = [
-  process.env.FRONTEND_URL,
-  process.env.FRONT_URL_VERCEL
-];
-
 app.use(cors({
-  origin: function (origin, callback) {
-    if (!origin || allowedOrigins.includes(origin)) {
-      console.log("✅ Origen permitido por CORS:", origin);
-      return callback(null, true);
-    }
-    console.error("❌ Origen RECHAZADO por CORS:", origin);
-    return callback(new Error('No permitido por CORS'), false);
-  },
+  origin: [process.env.FRONTEND_URL, "https://qmenu.digital"],
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   credentials: true
 }));
+app.options(/(.*)/, cors());
 app.use(cookieParser());
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
