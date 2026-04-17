@@ -1,19 +1,33 @@
 import formidable from "formidable";
+
 async function formidableMiddlewareFoods(req, res, next) {
     const form = formidable({
         multiples: false,
         keepExtensions: true,
     });
+
     form.parse(req, (err, fields, files) => {
-        const name = fields?.name?.[0].toString();
-        const description = fields?.description?.[0].toString();
-        const category = fields?.category?.[0].toString();
-        const price = parseInt(fields?.price, 10);
-        const sub_category = fields?.sub_category?.[0].toString();
-        if (err) { return next(err); }
+        if (err) return next(err);
+
+        const getFirst = (field) => (Array.isArray(field) ? field[0] : field);
+
+        const rawIsPromo = getFirst(fields?.is_promo);
+        const is_promo = rawIsPromo === "true" || rawIsPromo === "1" || rawIsPromo === true;
+
+        req.body = {
+            name: getFirst(fields?.name)?.toString(),
+            description: getFirst(fields?.description)?.toString(),
+            category: getFirst(fields?.category)?.toString(),
+            sub_category: getFirst(fields?.sub_category)?.toString(),
+            price: parseInt(getFirst(fields?.price), 10) || 0,
+            promo_price: parseInt(getFirst(fields?.promo_price), 10) || 0,
+            is_promo: is_promo,
+            order: parseInt(getFirst(fields?.order), 10) || 0
+        };
+
         req.files = files;
-        req.body = { name, description, category, price, sub_category };
-        return next();
+        next();
     });
 }
+
 export default formidableMiddlewareFoods;

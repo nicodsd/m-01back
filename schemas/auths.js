@@ -79,7 +79,7 @@ export const userUpdate = Joi.object({
     "string.min": "Ingresa al menos 5 caracteres.",
     "string.max": "Ingresa como máximo 30 caracteres.",
   }),
-  phone: Joi.string().allow("", null).optional().min(10).max(10).messages({
+  phone: Joi.string().allow("", null).optional().min(7).max(7).messages({
     "string.min": "Ingresa un numero válido.",
     "string.max": "Ingresa un numero válido.",
   }),

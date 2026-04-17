@@ -13,13 +13,13 @@ import updateOrder from "../controllers/payAuth/updateOrder.js";
 let router = Router();
 router.get("/", read);
 router.post(
-  "/postfood/:user_id",
-  formIdableFoods,
+  "/postfood/:id",
   passport.authenticate("jwt", { session: false }),
+  formIdableFoods,
   nameAlreadyExistFood,
   cloudinaryUploadMiddlewareFood,
   validator(foodSchema),
-  createFoodByUserId,
+  createFoodByUserId
 );
 router.put(
   "/update/:id",
@@ -30,7 +30,7 @@ router.put(
   updateFood,
 );
 router.delete(
-  "/delete/:id",
+  "/delete-multiple",
   passport.authenticate("jwt", { session: false }),
   deleteFood,
 );

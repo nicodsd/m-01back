@@ -1,8 +1,8 @@
 import Food from "../../models/Food.js";
 export default async function deleteFood(req, res, next) {
   try {
-    const { id } = req.params;
-    const FoodDestroyed = await Food.findByIdAndDelete(id);
+    const { ids } = req.body;
+    const FoodDestroyed = await Food.deleteMany({ _id: { $in: ids } });
     if (!FoodDestroyed) return next(new Error("Comida no encontrada"));
     if (FoodDestroyed) {
       return res.status(200).json({ response: FoodDestroyed });

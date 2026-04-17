@@ -7,19 +7,19 @@ const signout = async (req, res, next) => {
       await User.findByIdAndUpdate(userId, { is_online: false });
     }
 
-    const cookieOptions = {
-      httpOnly: true,
-      secure: true,
-      sameSite: "none",
-      path: "/",
-    };
-
-    res.clearCookie("token", cookieOptions);
-    res.clearCookie("user", cookieOptions);
+    /*     const cookieOptions = {
+          httpOnly: true,
+          secure: true,
+          sameSite: "none",
+          path: "/",
+        };
+    
+        res.clearCookie("token", cookieOptions);
+        res.clearCookie("user", cookieOptions); */
 
     return res.status(200).json({
       success: true,
-      message: "Cookies eliminadas"
+      message: "Sesión cerrada correctamente"
     });
   } catch (error) {
     next(error);
