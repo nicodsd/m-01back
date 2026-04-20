@@ -11,6 +11,7 @@ let schema = new Schema(
     promo_price: { type: Number, required: false, default: 0 },
     user_id: { type: Types.ObjectId, ref: "User", required: true },
     order: { type: Number, required: false, default: 0 },
+    photoId: { type: String, required: true },
   },
   {
     timestamps: true,

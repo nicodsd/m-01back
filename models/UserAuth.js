@@ -61,6 +61,14 @@ let schema = new Schema(
       type: String,
       required: false,
     },
+    photoId: {
+      type: String,
+      required: false,
+    },
+    coverId: {
+      type: String,
+      required: false,
+    }
   },
   {
     timestamps: true,

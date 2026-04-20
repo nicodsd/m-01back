@@ -6,20 +6,29 @@ cloudinary.config({
 });
 async function uploadToCloudinaryUser(filePath) {
   const result = await cloudinary.uploader.upload(filePath, {
-    folder: "usuarios",
+    folder: "user-logo",
   });
-  return result.secure_url;
+  return {
+    url: result.secure_url,
+    publicId: result.public_id
+  };
 }
 async function uploadToCloudinaryCover(filePath) {
   const result = await cloudinary.uploader.upload(filePath, {
-    folder: "covers",
+    folder: "user-cover",
   });
-  return result.secure_url;
+  return {
+    url: result.secure_url,
+    publicId: result.public_id
+  };
 }
-async function uploadToCloudinaryFood(filePath) {
-  const result = await cloudinary.uploader.upload(filePath, {
+async function uploadToCloudinaryFood(filepath) {
+  const result = await cloudinary.uploader.upload(filepath, {
     folder: "foods",
   });
-  return result.secure_url;
+  return {
+    url: result.secure_url,
+    publicId: result.public_id
+  };
 }
 export { uploadToCloudinaryUser, uploadToCloudinaryCover, uploadToCloudinaryFood };

@@ -17,9 +17,14 @@ export const userSignUp = Joi.object({
     "string.empty": "Password required",
     "string.min": "Ingresa al menos 8 caracteres",
   }),
-
+  photoId: Joi.string().allow("", null).optional().messages({
+    "string.empty": "Photo ID required",
+  }),
   photo: Joi.string().uri().required().messages({
     "string.uri": "Ingresa una URL válida para la foto.",
+  }),
+  coverId: Joi.string().allow("", null).optional().messages({
+    "string.empty": "Cover ID required",
   }),
   cover: Joi.string().uri().optional().messages({
     "string.uri": "Ingresa una URL válida para la portada.",
@@ -79,15 +84,21 @@ export const userUpdate = Joi.object({
     "string.min": "Ingresa al menos 5 caracteres.",
     "string.max": "Ingresa como máximo 30 caracteres.",
   }),
-  phone: Joi.string().allow("", null).optional().min(7).max(7).messages({
+  phone: Joi.string().allow("", null).optional().min(7).max(10).messages({
     "string.min": "Ingresa un numero válido.",
     "string.max": "Ingresa un numero válido.",
   }),
   photo: Joi.string().uri().messages({
     "string.uri": "Ingresa una URL válida para la foto.",
   }),
+  photoId: Joi.string().messages({
+    "string.empty": "Photo ID required",
+  }),
   cover: Joi.string().uri().optional().messages({
     "string.uri": "Ingresa una URL válida para la portada.",
+  }),
+  coverId: Joi.string().allow("", null).optional().messages({
+    "string.empty": "Cover ID required",
   }),
   instagram: Joi.string().allow("", null).optional().messages({
     "string.uri": "Ingresa una URL válida para Instagram.",
