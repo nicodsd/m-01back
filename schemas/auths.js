@@ -1,132 +1,44 @@
 import Joi from "joi";
 
 export const userSignUp = Joi.object({
-  name: Joi.string().required().min(3).messages({
-    "any.required": "Name required",
-    "string.empty": "Name required",
-    "string.min": "Ingresa al menos 3 caracteres",
-  }),
-  email: Joi.string().required().email({ minDomainSegments: 2 }).messages({
-    "any.required": "An email is required",
-    "string.empty": "An email is required",
-    "string.email": "Ingresa un email valido",
-  }),
-
-  password: Joi.string().required().min(8).messages({
-    "any.required": "Password required",
-    "string.empty": "Password required",
-    "string.min": "Ingresa al menos 8 caracteres",
-  }),
-  photoId: Joi.string().allow("", null).optional().messages({
-    "string.empty": "Photo ID required",
-  }),
-  photo: Joi.string().uri().required().messages({
-    "string.uri": "Ingresa una URL válida para la foto.",
-  }),
-  coverId: Joi.string().allow("", null).optional().messages({
-    "string.empty": "Cover ID required",
-  }),
-  cover: Joi.string().uri().optional().messages({
-    "string.uri": "Ingresa una URL válida para la portada.",
-  }),
-
-  phone: Joi.string().allow("", null).optional().messages({
-    "string.empty": "Phone required",
-  }),
-  location: Joi.string().allow("", null).optional().messages({
-    "string.empty": "Address required",
-  }),
-  description: Joi.string().allow("", null).optional().messages({
-    "string.empty": "Description required",
-  }),
-  instagram: Joi.string().allow("", null).optional().messages({
-    "string.empty": "Instagram required",
-  }),
-  tiktok: Joi.string().allow("", null).optional().messages({
-    "string.empty": "Tiktok required",
-  }),
-  facebook: Joi.string().allow("", null).optional().messages({
-    "string.empty": "Facebook required",
-  }),
+  name: Joi.string().required().min(3).max(20).messages({ "any.required": "Ingresa un nombre", "string.empty": "Ingresa un nombre", "string.min": "Ingresa al menos 3 caracteres", "string.max": "Ingresa como máximo 20 caracteres", }),
+  email: Joi.string().required().email({ minDomainSegments: 2 }).messages({ "any.required": "Ingresa un email", "string.empty": "Ingresa un email", "string.email": "Ingresa un email valido", }),
+  password: Joi.string().required().min(8).regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/).messages({ "any.required": "Ingresa una contraseña", "string.empty": "Ingresa una contraseña", "string.min": "Ingresa al menos 8 caracteres", "string.pattern.base": "La contraseña debe contener una mayúscula, una minúscula y un número", }),
 
   plan: Joi.string().required(),
+  mp_preapproval_id: Joi.string().allow("", null).optional(),
 
   is_active: Joi.any().required(),
   is_online: Joi.any().required(),
+
+  //menuData
+  photo: Joi.string().uri().optional().messages({ "string.uri": "Ingresa una foto válida.", }),
+  photoId: Joi.string().allow("", null).optional().messages({ "string.empty": "Photo ID required", }),
+  cover: Joi.string().uri().optional().messages({ "string.uri": "Ingresa una portada válida.", }),
+  coverId: Joi.string().allow("", null).optional().messages({ "string.empty": "Cover ID required", }),
+  phone: Joi.string().allow("", null).optional().messages({ "string.empty": "Ingresa un número de teléfono", "string.min": "Ingresa al menos 7 caracteres", "string.max": "Ingresa como máximo 10 caracteres", }),
+  location: Joi.string().allow("", null).optional().messages({ "string.empty": "Ingresa una dirección", "string.min": "Ingresa al menos 5 caracteres", "string.max": "Ingresa como máximo 20 caracteres", }),
+  description: Joi.string().allow("", null).optional().messages({ "string.empty": "Ingresa una descripción", "string.min": "Ingresa al menos 5 caracteres", "string.max": "Ingresa como máximo 30 caracteres", }),
+  instagram: Joi.string().allow("", null).optional().messages({ "string.empty": "Instagram requerido", }),
+  tiktok: Joi.string().allow("", null).optional().messages({ "string.empty": "Tiktok requerido", }),
+  facebook: Joi.string().allow("", null).optional().messages({ "string.empty": "Facebook requerido", }),
+
+  //menuConfig
+  template_id: Joi.string().optional().default("default").messages({ "string.empty": "Ingresa un template_id", }),
+  navBar: Joi.number().optional().default(0).messages({ "number.empty": "Ingresa un navBar", }),
+  menuConfig: Joi.number().optional().default(0).messages({ "number.empty": "Ingresa un menuConfig", }),
+  multipleStores: Joi.boolean().optional().default(false).messages({ "boolean.empty": "Ingresa un multipleStores", }),
+  deliveryZones: Joi.boolean().optional().default(false).messages({ "boolean.empty": "Ingresa un deliveryZones", }),
+  delivery: Joi.boolean().optional().default(false).messages({ "boolean.empty": "Ingresa un delivery", }),
+  paymentOptions: Joi.boolean().optional().default(false).messages({ "boolean.empty": "Ingresa un paymentOptions", }),
+  whatsAppCart: Joi.boolean().optional().default(false).messages({ "boolean.empty": "Ingresa un whatsAppCart", }),
+  productsVisibilityPay: Joi.boolean().required().default(false).messages({ "any.required": "Ingresa un productsVisibilityPay", "boolean.empty": "Ingresa un productsVisibilityPay", }),
 
   /*   is_verified: Joi.boolean().default(false),
     verify_code: Joi.string().allow("", null),
     notifications: Joi.any(), */
 });
 
-export const userSignIn = Joi.object({
-  email: Joi.string().required().email({ minDomainSegments: 2 }).messages({
-    "any.required": "An email is required",
-    "string.empty": "An email is required",
-    "string.email": "Invalid email",
-  }),
-  password: Joi.string().required().messages({
-    "any.required": "Password required",
-    "string.empty": "Password required",
-  }),
-});
-
-export const userUpdate = Joi.object({
-  name: Joi.string().min(3).max(20).messages({
-    "string.min": "Ingresa al menos 3 caracteres.",
-    "string.max": "Ingresa como máximo 20 caracteres.",
-  }),
-  location: Joi.string().allow("", null).optional().min(5).max(20).messages({
-    "string.min": "Ingresa al menos 5 caracteres.",
-    "string.max": "Ingresa como máximo 20 caracteres.",
-  }),
-  description: Joi.string().allow("", null).optional().min(5).max(30).messages({
-    "string.min": "Ingresa al menos 5 caracteres.",
-    "string.max": "Ingresa como máximo 30 caracteres.",
-  }),
-  phone: Joi.string().allow("", null).optional().min(7).max(10).messages({
-    "string.min": "Ingresa un numero válido.",
-    "string.max": "Ingresa un numero válido.",
-  }),
-  photo: Joi.string().uri().messages({
-    "string.uri": "Ingresa una URL válida para la foto.",
-  }),
-  photoId: Joi.string().messages({
-    "string.empty": "Photo ID required",
-  }),
-  cover: Joi.string().uri().optional().messages({
-    "string.uri": "Ingresa una URL válida para la portada.",
-  }),
-  coverId: Joi.string().allow("", null).optional().messages({
-    "string.empty": "Cover ID required",
-  }),
-  instagram: Joi.string().allow("", null).optional().messages({
-    "string.uri": "Ingresa una URL válida para Instagram.",
-  }),
-  tiktok: Joi.string().allow("", null).optional().messages({
-    "string.uri": "Ingresa una URL válida para TikTok.",
-  }),
-  facebook: Joi.string().allow("", null).optional().messages({
-    "string.uri": "Ingresa una URL válida para Facebook.",
-  }),
-});
-
-export const userUpdateIsOnline = Joi.object({
-  is_online: Joi.any().required().messages({
-    "any.required": "Faltó el estado de la cuenta",
-    "any.empty": "Faltó el estado de la cuenta",
-  }),
-});
-/* 
-export const userUpdateIsVerified = Joi.object({
-  is_verified: Joi.any().required().messages({
-    "any.required": "Faltó el estado de la verificación",
-    "any.empty": "Faltó el estado de la verificación",
-  }),
-}); */
-
-export const userTemplateUpdate = Joi.object({
-  template_id: Joi.string().allow("", null).optional().messages({
-    "string.empty": "Faltó el template",
-  }),
-});
+export const userSignIn = Joi.object({ email: Joi.string().required().email({ minDomainSegments: 2 }).messages({ "any.required": "Ingresa un email", "string.empty": "Ingresa un email", "string.email": "Ingresa un email valido", }), password: Joi.string().required().messages({ "any.required": "Ingresa una contraseña", "string.empty": "Ingresa una contraseña", }), });
+export const userUpdate = Joi.object({ name: Joi.string().min(3).max(20).messages({ "string.min": "Ingresa al menos 3 caracteres.", "string.max": "Ingresa como máximo 20 caracteres.", }) });
+export const userUpdateIsOnline = Joi.object({ is_online: Joi.any().required().messages({ "any.required": "Faltó el estado de la cuenta", "any.empty": "Faltó el estado de la cuenta", }), });

@@ -3,7 +3,7 @@ import categoryRouter from "./categories.js";
 import foodRouter from "./foods.js";
 import conectedEndpoint from "../middlewares/conectedEndpoints.js";
 import userRouter from "./auth.js";
-import accessUrlRouter from "./accessUrl.js";
+import menuRouter from "./menu.js";
 const router = express.Router();
 /* GET home page. */
 router.get("/", function (req, res, next) {
@@ -15,5 +15,5 @@ router.get("/", function (req, res, next) {
 router.use("/auth", conectedEndpoint, userRouter);
 router.use("/categories", conectedEndpoint, categoryRouter);
 router.use("/foods", conectedEndpoint, foodRouter);
-router.use("/menu", conectedEndpoint, accessUrlRouter)
+router.use("/menu", conectedEndpoint, menuRouter)
 export default router;

@@ -16,9 +16,9 @@ import nameAlreadyExist from "../middlewares/userNameAlreadyExist.js";
 import updateUser from "../controllers/payAuth/updateUser.js";
 import isOnline from "../controllers/auths/isOnline.js"
 import { createSubscription } from "../controllers/subscriptionController.js";
-import updateTemplate from "../controllers/payAuth/updateTemplate.js";
-import { userSignUp, userSignIn, userUpdate, userUpdateIsOnline, userTemplateUpdate } from "../schemas/auths.js";
+import { userSignUp, userSignIn, userUpdate, userUpdateIsOnline } from "../schemas/auths.js";
 import rateLimit from "express-rate-limit";
+import { checkSession } from "../controllers/auths/$get-sessions.js";
 const authLimiter = rateLimit({
   windowMs: 10 * 60 * 1000, // Ventana de 10 minutos
   max: 10, // Solo 10 intentos de login/registro por ventana
@@ -34,6 +34,11 @@ const authLimiter = rateLimit({
 //INITIALIZE
 const router = express.Router();
 //ENDPOINTS AUTH - REGISTER, LOGIN, LOGOUT
+router.get(
+  "/check-session",
+  authLimiter,
+  checkSession,
+);
 router.post(
   "/signup",
   authLimiter,
@@ -61,15 +66,6 @@ router.post(
 );
 //ENDPOINTS AUTH - UPDATE
 router.put(
-  "/update/:id",
-  passport.authenticate("jwt", { session: false }),
-  formIdable,
-  nameAlreadyExist,
-  cloudinaryUploadMiddlewareById,
-  validator(userUpdate),
-  updateUser,
-);
-router.put(
   "/update/is_online/:email",
   validator(userUpdateIsOnline),
   isOnline,
@@ -77,12 +73,6 @@ router.put(
 router.post(
   "/subscribe",
   createSubscription,
-);
-router.put(
-  "/update/template/:id",
-  passport.authenticate("jwt", { session: false }),
-  validator(userTemplateUpdate),
-  updateTemplate,
 );
 
 //ENDPOINTS AUTH - ADMIN

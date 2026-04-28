@@ -1,4 +1,5 @@
 import User from "../../models/UserAuth.js";
+import Menu from "../../models/Menu.js";
 import jwt from "jsonwebtoken";
 const $key = process.env.JWT_SECRET_KEY;
 export default async function signin(req, res, next) {
@@ -12,20 +13,11 @@ export default async function signin(req, res, next) {
     }
     let user = {
       id: userFound._id,
-      location: userFound?.location || "",
-      description: userFound?.description || "",
-      phone: userFound?.phone || "",
-      instagram: userFound?.instagram || "",
-      tiktok: userFound?.tiktok || "",
-      facebook: userFound?.facebook || "",
-      cover: userFound?.cover || null,
       name: userFound.name,
       plan: userFound.plan,
       email: userFound.email,
-      photo: userFound.photo,
       is_online: userFound.is_online,
       is_active: userFound.is_active,
-      template_id: userFound?.template_id || "",
     };
     const token = jwt.sign(
       { _id: userFound._id, email: userFound.email, plan: userFound.plan },
@@ -33,6 +25,12 @@ export default async function signin(req, res, next) {
       { expiresIn: 60 * 60 * 24 }, // 1 día
     );
     await User.findByIdAndUpdate(userFound._id, { is_online: true });
+    const menu = await Menu.findOne({ user_id: userFound._id });
+    if (!menu) {
+      return res
+        .status(404)
+        .json({ success: false, status: 404, message: "Menu no encontrado, por favor cree un menu" });
+    }
     return res
       .status(200)
       .cookie("token", token, {
@@ -48,6 +46,7 @@ export default async function signin(req, res, next) {
         message: "Inicio de sesión exitoso",
         token,
         user,
+        menu
       });
   } catch (error) {
     next(error);
