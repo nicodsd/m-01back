@@ -15,6 +15,7 @@ import { cloudinaryUploadMiddlewareById } from "../middlewares/upToCloudinary.js
 import nameAlreadyExist from "../middlewares/userNameAlreadyExist.js";
 import updateUser from "../controllers/payAuth/updateUser.js";
 import isOnline from "../controllers/auths/isOnline.js"
+import successSubscription from "../controllers/auths/updateStateSubscriptionMp.js";
 import { createSubscription } from "../controllers/subscriptionController.js";
 import { userSignUp, userSignIn, userUpdate, userUpdateIsOnline } from "../schemas/auths.js";
 import rateLimit from "express-rate-limit";
@@ -73,6 +74,10 @@ router.put(
 router.post(
   "/subscribe",
   createSubscription,
+);
+router.post(
+  "/subscription/webhook-mp",
+  successSubscription,
 );
 
 //ENDPOINTS AUTH - ADMIN

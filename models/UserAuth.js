@@ -12,7 +12,13 @@ let schema = new Schema(
     emailVerificationExpires: { type: Date },
     verificationCode: { type: String },
     codeExpiresAt: { type: Date },
-    mp_preapproval_id: { type: String, required: false }
+    //mp-credentials
+    mp_preapproval_id: { type: String, required: false },
+    mp_subscription_state: { type: String, required: false },
+    mp_subscription_id: { type: String, required: false },
+    //mp-token
+    mp_access_token: { type: String, required: false },
+    mp_access_token_expires_at: { type: Date, required: false },
   },
   { timestamps: true }
 );
