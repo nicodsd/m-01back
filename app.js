@@ -17,7 +17,7 @@ app.set('trust proxy', 1);
 app.use(cors({
   origin: function (origin, callback) {
     // Permitimos si no hay origen (como apps móviles) o si viene de trycloudflare
-    if (!origin || origin.includes("trycloudflare.com") || origin.includes("https://qrmenu-o8q0uyo2o-nicodsds-projects.vercel.app") || origin.includes("http://localhost:3000")) {
+    if (!origin || origin.includes("trycloudflare.com") || origin.includes("https://qrmenu-ouxsic4yh-nicodsds-projects.vercel.app") || origin.includes("http://localhost:3000")) {
       callback(null, true);
     } else {
       callback(new Error("Not allowed by CORS"));
