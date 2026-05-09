@@ -12,6 +12,7 @@ let schema = new Schema(
     user_id: { type: Types.ObjectId, ref: "User", required: true },
     order: { type: Number, required: false, default: 0 },
     photoId: { type: String, required: true },
+    is_archived: { type: Boolean, required: false, default: false },
   },
   {
     timestamps: true,

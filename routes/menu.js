@@ -6,10 +6,12 @@ import formIdable from "../middlewares/form-idable.js";
 import { cloudinaryUploadMiddlewareById } from "../middlewares/upToCloudinary.js";
 import rateLimit from "express-rate-limit";
 import read from "../controllers/accessUrl.js"
-import { menuInfoUpdate, menuConfigUpdate } from "../schemas/menuJoi.js";
+import { menuInfoUpdate, menuConfigUpdate, menuSignUp } from "../schemas/menuJoi.js";
+import createMenu from "../controllers/menu/createMenu.js";
 import updateMenuInfo from "../controllers/menu/updateMenuInfo.js";
 import updateMenuConfig from "../controllers/menu/updateMenuConfig.js";
 import { userAlreadyExist } from "../middlewares/nameAlreadyExists.js";
+import getAllMenus from "../controllers/menu/getAllMenus.js";
 const menuLimiter = rateLimit({
     windowMs: 10 * 60 * 1000, // Ventana de 10 minutos
     max: 10, // Solo 10 intentos de login/registro por ventana
@@ -26,6 +28,16 @@ const menuLimiter = rateLimit({
 const router = express.Router();
 
 router.get("/:name", read)
+router.get("/get-menus/:id",
+    //passport.authenticate("jwt", { session: false }),
+    getAllMenus)
+router.post("/create-menu/:id",
+    passport.authenticate("jwt", { session: false }),
+    formIdable,
+    cloudinaryUploadMiddlewareById,
+    validator(menuSignUp),
+    createMenu
+)
 router.put("/update/info/:id",
     passport.authenticate("jwt", { session: false }),
     formIdable,

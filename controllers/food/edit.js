@@ -14,10 +14,16 @@ export default async function updateFood(req, res, next) {
     if (updates.is_promo === "true" || updates.is_promo === true) {
       updates.is_promo = true;
       if (updates.promo_price !== undefined) {
-        updates.price = updates.promo_price;
+        updates.promo_price;
       }
     } else if (updates.is_promo === "false" || updates.is_promo === false) {
       updates.is_promo = false;
+    }
+
+    if (updates.is_archived === "true" || updates.is_archived === true) {
+      updates.is_archived = true;
+    } else if (updates.is_archived === "false" || updates.is_archived === false) {
+      updates.is_archived = false;
     }
 
     // 3. LIMPIEZA DE CLOUDINARY:

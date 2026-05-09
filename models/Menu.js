@@ -22,7 +22,8 @@ const menuSchema = new mongoose.Schema({
     delivery: { type: Boolean, default: false },
     paymentOptions: { type: Boolean, default: false },
     whatsAppCart: { type: Boolean, default: true },
-    productsVisibilityPay: { type: Boolean, default: false }
+    productsVisibilityPay: { type: Boolean, default: false },
+    menuEnlisted: { type: Number, default: 0 },
 });
 
 const Menu = mongoose.model("Menu", menuSchema);

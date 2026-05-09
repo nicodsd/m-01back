@@ -34,8 +34,8 @@ app.options(/(.*)/, cors());
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 //MANEJO DEL MORGAN
-/* morgan.token("navegador", (req) => req.headers["user-agent"]);
-morgan.token("ip", (req) => req.ip || req.connection.remoteAddress); */
+morgan.token("navegador", (req) => req.headers["user-agent"]);
+morgan.token("ip", (req) => req.ip || req.connection.remoteAddress);
 app.use(sessionConfig);
 app.use("/", indexRouter);
 app.use(notFoundHandler);

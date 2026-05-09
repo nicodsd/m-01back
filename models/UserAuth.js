@@ -7,18 +7,17 @@ let schema = new Schema(
     plan: { type: String, required: true },
     is_active: { type: Boolean, required: true },
     is_online: { type: Boolean, required: true },
+    menuEnlisted: { type: Number, default: 0, required: false },
     isEmailVerified: { type: Boolean, default: false },
     emailVerificationToken: { type: String },
     emailVerificationExpires: { type: Date },
     verificationCode: { type: String },
-    codeExpiresAt: { type: Date },
+    codeCreatedAt: { type: Date, required: false },
     //mp-credentials
     mp_preapproval_id: { type: String, required: false },
     mp_subscription_state: { type: String, required: false },
     mp_subscription_id: { type: String, required: false },
-    //mp-token
-    mp_access_token: { type: String, required: false },
-    mp_access_token_expires_at: { type: Date, required: false },
+    paymentCreated: { type: Date || null },
   },
   { timestamps: true }
 );

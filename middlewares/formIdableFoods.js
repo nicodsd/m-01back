@@ -14,6 +14,9 @@ async function formidableMiddlewareFoods(req, res, next) {
         const rawIsPromo = getFirst(fields?.is_promo);
         const is_promo = rawIsPromo === "true" || rawIsPromo === "1" || rawIsPromo === true;
 
+        const rawIsArchived = getFirst(fields?.is_archived);
+        const is_archived = rawIsArchived === "true" || rawIsArchived === "1" || rawIsArchived === true;
+
         req.body = {
             name: getFirst(fields?.name)?.toString(),
             description: getFirst(fields?.description)?.toString(),
@@ -22,9 +25,9 @@ async function formidableMiddlewareFoods(req, res, next) {
             price: parseInt(getFirst(fields?.price), 10) || 0,
             promo_price: parseInt(getFirst(fields?.promo_price), 10) || 0,
             is_promo: is_promo,
-            order: parseInt(getFirst(fields?.order), 10) || 0
+            order: parseInt(getFirst(fields?.order), 10) || 0,
+            is_archived: is_archived,
         };
-
         req.files = files;
         next();
     });

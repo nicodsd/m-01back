@@ -1,7 +1,7 @@
 import Joi from "joi-oid";
 
 export const foodSchema = Joi.object({
-  name: Joi.string().required().messages({
+  name: Joi.string().min(5).max(30).required().messages({
     "string.empty": "Faltó el nombre del plato",
     "string.required": "Faltó el nombre del plato",
   }),
@@ -10,7 +10,7 @@ export const foodSchema = Joi.object({
     "any.invalid": "URL invalid",
     "string.uri": "URL invalid",
   }),
-  description: Joi.string().min(5).max(25).required().messages({
+  description: Joi.string().min(5).max(50).required().messages({
     "string.required": "Faltó la descripción del plato",
     "string.min": "La descripción del plato es muy corta",
     "string.max": "La descripción del plato es muy larga",
@@ -32,14 +32,14 @@ export const foodSchema = Joi.object({
 }).unknown(true); // <--- ESTO permite que pasen campos extra como user_id o metadata
 
 export const foodSchemaUpdate = Joi.object({
-  name: Joi.string().optional().messages({
+  name: Joi.string().optional().min(5).max(30).messages({
     "string.empty": "Faltó el nombre del plato",
   }),
   photo: Joi.string().uri().optional().messages({
     "any.invalid": "Imagen inválida",
     "string.uri": "Imagen inválida",
   }),
-  description: Joi.string().min(5).max(25).optional().messages({
+  description: Joi.string().min(5).max(50).optional().messages({
     "string.min": "La descripción del plato es muy corta",
     "string.max": "La descripción del plato es muy larga",
   }),
@@ -51,6 +51,7 @@ export const foodSchemaUpdate = Joi.object({
   promo_price: Joi.number().allow(0).optional(),
   is_promo: Joi.boolean().optional(),
   order: Joi.number().allow(null, 0).optional(),
+  is_archived: Joi.boolean().optional(),
 }).unknown(true);
 
 export const foodSchemaUpdatPromo = Joi.object({

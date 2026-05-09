@@ -8,6 +8,8 @@ const visitaSchema = new Schema(
     navegador: String,
     dispositivo: String,
     status: Number,
+    user_id: { type: String, required: true },
+    user_url: String,
   },
   {
     timestamps: true,

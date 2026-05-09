@@ -21,6 +21,7 @@ let read = async (req, res, next) => {
             });
         }
         let data = {
+            _id: user._id,
             name: user.name,
             plan: user.plan,
             location: menu?.location,

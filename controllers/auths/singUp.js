@@ -7,7 +7,7 @@ const $key = process.env.JWT_SECRET_KEY;
 export default async function signUp(req, res, next) {
   // 1. Intentamos obtener datos de la sesión (solo existirán si viene de Mercado Pago)
   const tempData = req.session ? req.session.tempUserData : null;
-  const { mp_preapproval_id: preapprovalId } = req.body; // Cambié preapproval_id a preapprovalId para coincidir con tu FormData del front
+  const { mp_preapproval_id: preapprovalId } = req.body;
 
   /**
    * LÓGICA HÍBRIDA: 
@@ -17,7 +17,7 @@ export default async function signUp(req, res, next) {
   if (tempData && preapprovalId) {
     req.body.name = tempData.name;
     req.body.email = tempData.email;
-    req.body.password = tempData.password; // Ya viene hasheada de la sesión previa
+    req.body.password = tempData.password;
     req.body.plan = tempData.plan;
   }
 
@@ -30,7 +30,6 @@ export default async function signUp(req, res, next) {
   }
 
   try {
-    await createHash(req, res, () => { });
     // 2. Preparar el objeto del usuario
     // Nota: req.body ya contiene name, phone, photo (vía formidable/cloudinary), etc.
     const userData = {
@@ -38,10 +37,13 @@ export default async function signUp(req, res, next) {
       email: req.body.email,
       password: req.body.password,
       plan: req.body.plan || "free",
+      productsVisibilityPay: req.body.productsVisibilityPay || false,
       mp_preapproval_id: preapprovalId || null, // Guardamos el ID de MP si existe
       is_online: true,
       is_active: preapprovalId ? true : false, // Activo inmediatamente si pagó
-      createdAt: new Date(),
+      codeCreatedAt: new Date(),
+      paymentCreated: preapprovalId ? new Date() : null,
+      menu_id: null,
     };
 
     // 3. Guardar en MongoDB
@@ -62,6 +64,7 @@ export default async function signUp(req, res, next) {
       tiktok: req.body.tiktok || "",
       facebook: req.body.facebook || "",
       navBar: 0,
+      menuEnlisted: 1,
       menuConfig: 0,
       multipleStores: false,
       deliveryZones: false,
@@ -77,7 +80,6 @@ export default async function signUp(req, res, next) {
     if (req.body.coverId) {
       menuData.coverId = req.body.coverId
     }
-    menuData.user_id = newUser._id
     let newMenu = new Menu(menuData);
     await newMenu.save();
 
@@ -105,6 +107,9 @@ export default async function signUp(req, res, next) {
       is_online: newUser.is_online,
       is_active: newUser.is_active,
       createdAt: newUser.createdAt,
+      codeCreatedAt: req.body.codeCreatedAt,
+      paymentCreated: req.body.paymentCreated,
+      menu_id: newMenu._id,
       //menuData
       photo: newMenu.photo,
       cover: newMenu.cover,

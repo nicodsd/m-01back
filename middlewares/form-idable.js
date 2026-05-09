@@ -17,6 +17,19 @@ async function formidableMiddleware(req, res, next) {
       else body[key] = value;
     }
 
+    if (req.url === "/auth/signup" || req.url === "/menu/create-menu") {
+      if (!body.mp_preapproval_id) {
+        body.productsVisibilityPay = false;
+      } else {
+        body.productsVisibilityPay = true;
+      }
+
+      if (!body.menuEnlisted) {
+        body.menuEnlisted = 0;
+      } else {
+        body.menuEnlisted = Number(body.menuEnlisted);
+      }
+    }
     req.files = files;
     req.body = body;
     next();
