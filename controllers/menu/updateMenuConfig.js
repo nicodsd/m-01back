@@ -6,7 +6,9 @@ const updateMenuConfig = async (req, res, next) => {
         const {
             template_id,
             navBar,
-            menuConfig,
+            presentation,
+            enable_bebidas,
+            enable_postres,
             multipleStores,
             deliveryZones,
             delivery,
@@ -21,7 +23,9 @@ const updateMenuConfig = async (req, res, next) => {
         const menu = await Menu.findOneAndUpdate({ user_id: user._id }, {
             template_id,
             navBar,
-            menuConfig,
+            presentation,
+            enable_bebidas,
+            enable_postres,
             multipleStores,
             deliveryZones,
             delivery,

@@ -17,8 +17,10 @@ export const menuSignUp = Joi.object({
     //config
     menuEnlisted: Joi.number().optional().default(0).messages({ "number.empty": "Ingresa un menuEnlisted", }),
     template_id: Joi.string().optional().default("default").messages({ "string.empty": "Ingresa un template_id", }),
-    navBar: Joi.number().optional().default(0).messages({ "number.empty": "Ingresa un navBar", }),
-    menuConfig: Joi.number().optional().default(0).messages({ "number.empty": "Ingresa un menuConfig", }),
+    navBar: Joi.string().optional().default("default").messages({ "string.empty": "Ingresa un navBar", }),
+    presentation: Joi.string().optional().default("default").messages({ "string.empty": "Ingresa un presentation", }),
+    enable_bebidas: Joi.boolean().optional().default(false).messages({ "boolean.empty": "Ingresa un enable_bebidas", }),
+    enable_postres: Joi.boolean().optional().default(false).messages({ "boolean.empty": "Ingresa un enable_postres", }),
     multipleStores: Joi.boolean().optional().default(false).messages({ "boolean.empty": "Ingresa un multipleStores", }),
     deliveryZones: Joi.boolean().optional().default(false).messages({ "boolean.empty": "Ingresa un deliveryZones", }),
     delivery: Joi.boolean().optional().default(false).messages({ "boolean.empty": "Ingresa un delivery", }),
@@ -45,8 +47,10 @@ export const menuInfoUpdate = Joi.object({
 
 export const menuConfigUpdate = Joi.object({
     template_id: Joi.string().optional().default("default").messages({ "string.empty": "Ingresa un template_id", }),
-    navBar: Joi.number().optional().default(0).messages({ "number.empty": "Ingresa un navBar", }),
-    menuConfig: Joi.number().optional().default(0).messages({ "number.empty": "Ingresa un menuConfig", }),
+    navBar: Joi.string().optional().default("default").messages({ "string.empty": "Ingresa un navBar", }),
+    presentation: Joi.string().optional().default("default").messages({ "string.empty": "Ingresa un presentation", }),
+    enable_bebidas: Joi.boolean().optional().default(false).messages({ "boolean.empty": "Ingresa un enable_bebidas", }),
+    enable_postres: Joi.boolean().optional().default(false).messages({ "boolean.empty": "Ingresa un enable_postres", }),
     multipleStores: Joi.boolean().optional().default(false).messages({ "boolean.empty": "Ingresa un multipleStores", }),
     deliveryZones: Joi.boolean().optional().default(false).messages({ "boolean.empty": "Ingresa un deliveryZones", }),
     delivery: Joi.boolean().optional().default(false).messages({ "boolean.empty": "Ingresa un delivery", }),

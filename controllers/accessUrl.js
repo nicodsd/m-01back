@@ -35,9 +35,11 @@ let read = async (req, res, next) => {
             template_id: menu?.template_id,
             foods,
             navBar: menu.navBar,
-            menuConfig: menu.menuConfig,
+            presentation: menu.presentation,
             multipleStores: menu.multipleStores,
             deliveryZones: menu.deliveryZones,
+            enable_bebidas: menu.enable_bebidas,
+            enable_postres: menu.enable_postres,
             delivery: menu.delivery,
             whatsAppCart: menu.whatsAppCart,
             productsVisibilityPay: menu.productsVisibilityPay

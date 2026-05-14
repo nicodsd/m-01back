@@ -12,6 +12,7 @@ import updateMenuInfo from "../controllers/menu/updateMenuInfo.js";
 import updateMenuConfig from "../controllers/menu/updateMenuConfig.js";
 import { userAlreadyExist } from "../middlewares/nameAlreadyExists.js";
 import getAllMenus from "../controllers/menu/getAllMenus.js";
+import deleteMenus from "../controllers/menu/deleteMenu.js";
 const menuLimiter = rateLimit({
     windowMs: 10 * 60 * 1000, // Ventana de 10 minutos
     max: 10, // Solo 10 intentos de login/registro por ventana
@@ -50,7 +51,10 @@ router.put("/update/config/:id",
     passport.authenticate("jwt", { session: false }),
     validator(menuConfigUpdate),
     updateMenuConfig
+)
+router.delete("/delete-menus/:ids",
+    passport.authenticate("jwt", { session: false }),
+    deleteMenus
 );
-
 //EXPORT
 export default router;

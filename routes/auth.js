@@ -3,7 +3,6 @@ import express from "express";
 import signUp from "../controllers/auths/singUp.js";
 import signin from "../controllers/auths/singIn.js";
 import signout from "../controllers/auths/singOut.js";
-import passport from "../middlewares/passport.js";
 import validator from "../middlewares/validator.js";
 import emailAlreadyExist from "../middlewares/emailAlreadyExist.js";
 import validatePassword from "../middlewares/validatePassword.js";
@@ -13,13 +12,17 @@ import createHash from "../middlewares/createHash.js";
 import formIdable from "../middlewares/form-idable.js";
 import { cloudinaryUploadMiddlewareById } from "../middlewares/upToCloudinary.js";
 import nameAlreadyExist from "../middlewares/userNameAlreadyExist.js";
-import updateUser from "../controllers/payAuth/updateUser.js";
 import isOnline from "../controllers/auths/isOnline.js"
 import successSubscription from "../controllers/auths/updateStateSubscriptionMp.js";
 import { createSubscription } from "../controllers/subscriptionController.js";
-import { userSignUp, userSignIn, userUpdate, userUpdateIsOnline } from "../schemas/auths.js";
+import { userSignUp, userSignIn, userUpdateIsOnline } from "../schemas/auths.js";
 import rateLimit from "express-rate-limit";
+//PASSWORD
+import forgotPassword from "../controllers/auths/forgotPassword.js";
+import resetPassword from "../controllers/auths/resetPassword.js";
+//SESSIONS
 import { checkSession } from "../controllers/auths/$get-sessions.js";
+//RATE LIMIT
 const authLimiter = rateLimit({
   windowMs: 10 * 60 * 1000, // Ventana de 10 minutos
   max: 10, // Solo 10 intentos de login/registro por ventana
@@ -79,6 +82,8 @@ router.post(
   "/subscription/webhook-mp",
   successSubscription,
 );
+router.post("/forgot-password", forgotPassword);
+router.post("/reset-password", resetPassword);
 
 //ENDPOINTS AUTH - ADMIN
 router.post("/admin", signin);
