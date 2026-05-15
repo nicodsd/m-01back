@@ -7,8 +7,8 @@ export const foodSchema = Joi.object({
   }),
   photo: Joi.string().uri().required().messages({
     "string.empty": "Faltó la foto",
-    "any.invalid": "URL invalid",
-    "string.uri": "URL invalid",
+    "any.invalid": "URL inválida",
+    "string.uri": "URL inválida",
   }),
   description: Joi.string().min(5).max(50).required().messages({
     "string.required": "Faltó la descripción del plato",
@@ -29,6 +29,7 @@ export const foodSchema = Joi.object({
   promo_price: Joi.number().allow(0).optional(),
   is_promo: Joi.boolean().optional(),
   order: Joi.number().allow(null, 0).optional(),
+  is_gluten_free: Joi.boolean().optional(), // Agregado aquí
 }).unknown(true); // <--- ESTO permite que pasen campos extra como user_id o metadata
 
 export const foodSchemaUpdate = Joi.object({

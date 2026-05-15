@@ -17,6 +17,9 @@ async function formidableMiddlewareFoods(req, res, next) {
         const rawIsArchived = getFirst(fields?.is_archived);
         const is_archived = rawIsArchived === "true" || rawIsArchived === "1" || rawIsArchived === true;
 
+        const rawIsGlutenFree = getFirst(fields?.is_gluten_free);
+        const is_gluten_free = rawIsGlutenFree === "true" || rawIsGlutenFree === "1" || rawIsGlutenFree === true;
+
         req.body = {
             name: getFirst(fields?.name)?.toString(),
             description: getFirst(fields?.description)?.toString(),
@@ -27,6 +30,7 @@ async function formidableMiddlewareFoods(req, res, next) {
             is_promo: is_promo,
             order: parseInt(getFirst(fields?.order), 10) || 0,
             is_archived: is_archived,
+            is_gluten_free: is_gluten_free, // Agregado aquí
         };
         req.files = files;
         next();

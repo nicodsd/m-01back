@@ -1,5 +1,6 @@
 import User from "../../models/UserAuth.js";
 import Food from "../../models/Food.js";
+
 let createFoodByUserId = async (req, res, next) => {
   let {
     photo,
@@ -11,7 +12,8 @@ let createFoodByUserId = async (req, res, next) => {
     sub_category,
     is_promo,
     promo_price,
-    order
+    order,
+    is_gluten_free
   } = req.body;
 
   let user_id = req.params.id;
@@ -36,7 +38,8 @@ let createFoodByUserId = async (req, res, next) => {
       promo_price,
       sub_category,
       category,
-      order
+      order,
+      is_gluten_free
     };
 
     let food = await Food.create(foodData);

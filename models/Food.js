@@ -13,6 +13,7 @@ let schema = new Schema(
     order: { type: Number, required: false, default: 0 },
     photoId: { type: String, required: true },
     is_archived: { type: Boolean, required: false, default: false },
+    is_gluten_free: { type: Boolean, required: false, default: false },
   },
   {
     timestamps: true,
