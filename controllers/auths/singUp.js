@@ -1,24 +1,23 @@
 import User from "../../models/UserAuth.js";
 import Menu from "../../models/Menu.js";
 import jwt from "jsonwebtoken";
-import createHash from "../../middlewares/createHash.js";
 const $key = process.env.JWT_SECRET_KEY;
 
 export default async function signUp(req, res, next) {
-  // 1. Intentamos obtener datos de la sesión (solo existirán si viene de Mercado Pago)
+  // 1. Intentamos obtener datos de la sesión
   const tempData = req.session ? req.session.tempUserData : null;
   const { mp_preapproval_id: preapprovalId } = req.body;
 
   /**
    * LÓGICA HÍBRIDA: 
-   * Si hay sesión activa y un ID de preaprobación, el usuario viene de pagar.
-   * Priorizamos los datos de la sesión porque son inmutables y seguros.
+   * Priorizamos los datos de la sesión porque son inmutables y seguros,
+   * y los aplicamos para planes tanto gratuitos como pagos.
    */
-  if (tempData && preapprovalId) {
-    req.body.name = tempData.name;
-    req.body.email = tempData.email;
-    req.body.password = tempData.password;
-    req.body.plan = tempData.plan;
+  if (tempData) {
+    req.body.name = tempData.name || req.body.name;
+    req.body.email = tempData.email || req.body.email;
+    req.body.password = tempData.password || req.body.password;
+    req.body.plan = tempData.plan || req.body.plan || "free";
   }
 
   // Validación de seguridad por si ambos (Body y Sesión) fallan
@@ -31,24 +30,45 @@ export default async function signUp(req, res, next) {
 
   try {
     // 2. Preparar el objeto del usuario
-    // Nota: req.body ya contiene name, phone, photo (vía formidable/cloudinary), etc.
     const userData = {
       name: req.body.name,
       email: req.body.email,
       password: req.body.password,
       plan: req.body.plan || "free",
       productsVisibilityPay: req.body.productsVisibilityPay || false,
-      mp_preapproval_id: preapprovalId || null, // Guardamos el ID de MP si existe
-      is_online: true,
-      is_active: preapprovalId ? true : false, // Activo inmediatamente si pagó
+      mp_preapproval_id: preapprovalId || null,
+      is_online: false,
+      is_active: preapprovalId ? true : (tempData ? tempData.isEmailVerified : false), // Activo si pagó o si ya validó su email
+      isEmailVerified: tempData ? tempData.isEmailVerified : false,
+      emailVerificationToken: tempData ? tempData.verificationCode : null,
       codeCreatedAt: new Date(),
       paymentCreated: preapprovalId ? new Date() : null,
-      menu_id: null,
+      active_menu_id: null
     };
 
-    // 3. Guardar en MongoDB
-    let newUser = new User(userData);
-    await newUser.save();
+    // 3. Guardar en MongoDB (Lógica híbrida de Upsert/Actualización robusta)
+    let newUser = await User.findOne({ email: req.body.email.toLowerCase() });
+    if (newUser) {
+      newUser.name = userData.name;
+      newUser.password = userData.password;
+      newUser.plan = userData.plan;
+      newUser.productsVisibilityPay = userData.productsVisibilityPay;
+      newUser.mp_preapproval_id = userData.mp_preapproval_id;
+      newUser.is_online = userData.is_online;
+
+      // Si pagó con Mercado Pago o ya verificó en sesión o base de datos, lo activamos
+      newUser.isEmailVerified = newUser.isEmailVerified || userData.isEmailVerified;
+      newUser.is_active = preapprovalId ? true : (newUser.isEmailVerified || userData.is_active);
+
+      newUser.paymentCreated = userData.paymentCreated || newUser.paymentCreated;
+      if (userData.emailVerificationToken && !newUser.isEmailVerified) {
+        newUser.emailVerificationToken = userData.emailVerificationToken;
+      }
+      await newUser.save();
+    } else {
+      newUser = new User(userData);
+      await newUser.save();
+    }
 
     const menuData = {
       user_id: newUser._id,
@@ -83,6 +103,12 @@ export default async function signUp(req, res, next) {
     let newMenu = new Menu(menuData);
     await newMenu.save();
 
+    if (!newUser.isEmailVerified && !preapprovalId) {
+      return res.status(403).json({
+        success: false,
+        message: "Debes verificar tu correo antes de iniciar sesión."
+      });
+    }
     // 4. Generar Token JWT
     const token = jwt.sign(
       { _id: newUser._id, email: newUser.email, plan: newUser.plan },

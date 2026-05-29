@@ -3,7 +3,12 @@ import Joi from "joi";
 export const userSignUp = Joi.object({
   name: Joi.string().required().min(3).max(20).messages({ "any.required": "Ingresa un nombre", "string.empty": "Ingresa un nombre", "string.min": "Ingresa al menos 3 caracteres", "string.max": "Ingresa como máximo 20 caracteres", }),
   email: Joi.string().required().email({ minDomainSegments: 2 }).messages({ "any.required": "Ingresa un email", "string.empty": "Ingresa un email", "string.email": "Ingresa un email valido", }),
-  password: Joi.string().required().min(8).regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/).messages({ "any.required": "Ingresa una contraseña", "string.empty": "Ingresa una contraseña", "string.min": "Ingresa al menos 8 caracteres", "string.pattern.base": "La contraseña debe contener una mayúscula, una minúscula y un número", }),
+  password: Joi.string().required().min(8).regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/).messages({
+    "any.required": "Ingresa una contraseña",
+    "string.empty": "Ingresa una contraseña",
+    "string.min": "La contraseña debe tener al menos 8 caracteres",
+    "string.pattern.base": "La contraseña debe contener una mayúscula, una minúscula y un número",
+  }),
 
   plan: Joi.string().required(),
   mp_preapproval_id: Joi.string().allow("", null).optional(),
@@ -43,3 +48,9 @@ export const userSignIn = Joi.object({ email: Joi.string().required().email({ mi
 export const userUpdate = Joi.object({ name: Joi.string().min(3).max(20).messages({ "string.min": "Ingresa al menos 3 caracteres.", "string.max": "Ingresa como máximo 20 caracteres.", }) });
 export const userUpdateIsOnline = Joi.object({ is_online: Joi.any().required().messages({ "any.required": "Faltó el estado de la cuenta", "any.empty": "Faltó el estado de la cuenta", }), });
 export const userUpdateSubscriptionMp = Joi.object({ mp_preapproval_id: Joi.string().required().messages({ "any.required": "Ingresa un mp_preapproval_id", "string.empty": "Ingresa un mp_preapproval_id", }), mp_subscription_state: Joi.string().required().messages({ "any.required": "Ingresa un mp_subscription_state", "string.empty": "Ingresa un mp_subscription_state", }), mp_subscription_id: Joi.string().required().messages({ "any.required": "Ingresa un mp_subscription_id", "string.empty": "Ingresa un mp_subscription_id", }), });
+
+export const userSendVerification = Joi.object({
+  name: Joi.string().required().min(3).max(20).messages({ "any.required": "Ingresa un nombre", "string.empty": "Ingresa un nombre", "string.min": "Ingresa al menos 3 caracteres", "string.max": "Ingresa como máximo 20 caracteres", }),
+  email: Joi.string().required().email({ minDomainSegments: 2 }).messages({ "any.required": "Ingresa un email", "string.empty": "Ingresa un email", "string.email": "Ingresa un email valido", }),
+  password: Joi.string().required().min(8).regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/).messages({ "any.required": "Ingresa una contraseña", "string.empty": "Ingresa una contraseña", "string.min": "Ingresa al menos 8 caracteres", "string.pattern.base": "La contraseña debe contener una mayúscula, una minúscula y un número", }),
+});

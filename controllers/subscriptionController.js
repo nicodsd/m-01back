@@ -11,8 +11,9 @@ export const createSubscription = async (req, res) => {
         // Usamos bcrypt para la contraseña antes de guardarla en la sesión
 
         req.session.tempUserData = {
-            email,
-            password,
+            ...(req.session.tempUserData || {}),
+            email: email || req.session.tempUserData?.email,
+            password: password || req.session.tempUserData?.password,
             plan: plan,
             amount: transaction_amount
         };
@@ -35,7 +36,13 @@ export const createSubscription = async (req, res) => {
                 status: "active",
             }
         });
-        req.session.tempUserData = { email, password, plan, name }
+        req.session.tempUserData = {
+            ...(req.session.tempUserData || {}),
+            email,
+            password,
+            plan,
+            name
+        };
         // 3. Opcional: Forzar guardado de sesión antes de responder
         // Esto asegura que los datos estén en MongoDB antes de que el usuario redirija
         req.session.save((err) => {

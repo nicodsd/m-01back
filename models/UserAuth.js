@@ -12,6 +12,15 @@ let schema = new Schema(
     emailVerificationToken: { type: String },
     emailVerificationExpires: { type: Date },
     verificationCode: { type: String },
+    verificationExpiresAt: {
+      type: Date,
+      default: null
+    },
+    pendingDeletionAt: {
+      type: Date,
+      default: null,
+      index: { expires: 0 }
+    },
     codeCreatedAt: { type: Date, required: false },
     //mp-credentials
     mp_preapproval_id: { type: String, required: false },

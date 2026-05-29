@@ -13,7 +13,7 @@ const sessionConfig = session({
         httpOnly: true,
         secure: true,   // Obligatorio para HTTPS de Cloudflare
         sameSite: 'none', // Obligatorio para dominios cruzados
-        maxAge: 1000 * 60 * 60
+        maxAge: 1000 * 60 * 60 * 24 // 24 horas
     }
 });
 

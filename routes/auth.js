@@ -15,13 +15,15 @@ import nameAlreadyExist from "../middlewares/userNameAlreadyExist.js";
 import isOnline from "../controllers/auths/isOnline.js"
 import successSubscription from "../controllers/auths/updateStateSubscriptionMp.js";
 import { createSubscription } from "../controllers/subscriptionController.js";
-import { userSignUp, userSignIn, userUpdateIsOnline } from "../schemas/auths.js";
+import { userSignUp, userSignIn, userUpdateIsOnline, userSendVerification } from "../schemas/auths.js";
 import rateLimit from "express-rate-limit";
 //PASSWORD
 import forgotPassword from "../controllers/auths/forgotPassword.js";
 import resetPassword from "../controllers/auths/resetPassword.js";
 //SESSIONS
 import { checkSession } from "../controllers/auths/$get-sessions.js";
+import sendVerification from "../controllers/auths/sendVerification.js";
+import verifyEmail from "../controllers/auths/verifyEmail.js";
 //RATE LIMIT
 const authLimiter = rateLimit({
   windowMs: 10 * 60 * 1000, // Ventana de 10 minutos
@@ -31,7 +33,7 @@ const authLimiter = rateLimit({
   handler: (req, res) => {
     res.status(429).json({
       success: false,
-      message: "Demasiados intentos. Por favor, intenta de nuevo en 10 minutos."
+      message: "Demasiados intentos. Por favor, intenta de nuevo mas tarde."
     });
   }
 });
@@ -42,6 +44,17 @@ router.get(
   "/check-session",
   authLimiter,
   checkSession,
+);
+router.post(
+  "/send-verification",
+  authLimiter,
+  validator(userSendVerification),
+  emailAlreadyExist,
+  sendVerification
+);
+router.get(
+  "/verify-email",
+  verifyEmail
 );
 router.post(
   "/signup",
