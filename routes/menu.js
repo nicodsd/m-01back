@@ -6,6 +6,7 @@ import formIdable from "../middlewares/form-idable.js";
 import { cloudinaryUploadMiddlewareById } from "../middlewares/upToCloudinary.js";
 import rateLimit from "express-rate-limit";
 import read from "../controllers/accessUrl.js"
+import readSatellite from "../controllers/accessSatelliteUrl.js"
 import { menuInfoUpdate, menuConfigUpdate, menuSignUp } from "../schemas/menuJoi.js";
 import createMenu from "../controllers/menu/createMenu.js";
 import updateMenuInfo from "../controllers/menu/updateMenuInfo.js";
@@ -29,6 +30,7 @@ const menuLimiter = rateLimit({
 const router = express.Router();
 
 router.get("/:name", read)
+router.get("/:name/:locationOrId", readSatellite)
 router.get("/get-menus/:id",
     //passport.authenticate("jwt", { session: false }),
     getAllMenus)

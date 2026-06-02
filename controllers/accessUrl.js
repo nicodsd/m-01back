@@ -12,7 +12,7 @@ let read = async (req, res, next) => {
                 message: "Usuario no encontrado",
             });
         }
-        let foods = await Food.find({ user_id: user._id })
+        let foods = await Food.find({ user_id: user._id }).sort({ order: 1 })
         let menu = await Menu.findOne({ user_id: user._id })
         if (!menu) {
             return res.status(404).json({

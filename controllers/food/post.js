@@ -27,6 +27,16 @@ let createFoodByUserId = async (req, res, next) => {
       });
     }
 
+    if (user.plan === "free") {
+      let count = await Food.countDocuments({ user_id });
+      if (count >= 10) {
+        return res.status(403).json({
+          success: false,
+          message: "Has alcanzado el límite de 10 platos de tu plan gratuito. ¡Mejora tu plan para agregar más platos ilimitados!"
+        });
+      }
+    }
+
     let foodData = {
       user_id,
       photo,

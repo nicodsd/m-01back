@@ -21,10 +21,16 @@ export default async function updateMenuInfo(req, res, next) {
             }
         }
 
-        // 2. Actualizamos la colección Menu usando el user_id
+        // 2. Actualizamos la colección Menu usando el user_id o menu_id
         // Nota: Filtramos campos undefined para no pisar datos existentes con null
+        let query = { user_id: id };
+        if (menuData.menu_id) {
+            query._id = menuData.menu_id;
+            delete menuData.menu_id;
+        }
+
         const updatedMenu = await Menu.findOneAndUpdate(
-            { user_id: id },
+            query,
             { $set: menuData },
             { new: true }
         );

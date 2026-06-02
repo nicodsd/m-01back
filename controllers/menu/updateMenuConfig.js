@@ -20,7 +20,12 @@ const updateMenuConfig = async (req, res, next) => {
         if (!user) {
             return res.status(404).json({ success: false, status: 404, message: "Usuario no encontrado" });
         }
-        const menu = await Menu.findOneAndUpdate({ user_id: user._id }, {
+        let query = { user_id: user._id };
+        if (req.body.menu_id) {
+            query._id = req.body.menu_id;
+        }
+
+        const menu = await Menu.findOneAndUpdate(query, {
             template_id,
             navBar,
             presentation,

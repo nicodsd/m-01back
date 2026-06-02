@@ -16,6 +16,8 @@ let schema = new Schema(
       type: Date,
       default: null
     },
+    verificationAttempts: { type: Number, default: 0 },
+    verificationBlockUntil: { type: Date, default: null },
     pendingDeletionAt: {
       type: Date,
       default: null,

@@ -10,8 +10,8 @@ const sendVerification = async (req, res, next) => {
         // 1. Check if email already exists
         const userExists = await User.findOne({ email: email.toLowerCase() });
 
-        // Generate verification token using bcrypt
-        const verificationCode = crypto.randomBytes(32).toString("hex");
+        // Generate verification token using 4 random digits
+        const verificationCode = Math.floor(1000 + Math.random() * 9000).toString();
         const hashedPassword = await bcryptjs.hash(password, 10);
 
         if (userExists) {
@@ -25,6 +25,8 @@ const sendVerification = async (req, res, next) => {
             userExists.name = name;
             userExists.password = hashedPassword;
             userExists.emailVerificationToken = verificationCode;
+            userExists.verificationAttempts = 0;
+            userExists.verificationBlockUntil = null;
             const verificationExpiration = new Date(Date.now() + 24 * 60 * 60 * 1000); // 24h
             const deletionDate = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000); // 7 días
             userExists.verificationExpiresAt = verificationExpiration;
@@ -45,7 +47,7 @@ const sendVerification = async (req, res, next) => {
                 emailVerificationToken: verificationCode,
                 verificationExpiresAt: verificationExpiration,
                 pendingDeletionAt: deletionDate,
-                is_online: true
+                is_online: false
             });
             await newUser.save();
         }
@@ -103,7 +105,7 @@ const sendVerification = async (req, res, next) => {
                         <td align="center" style="padding: 0 40px 20px 40px; color:#333333;">
                             <h2 style="margin:0; font-size:26px; font-weight:bold; color:#FF1E00;">¡Hola ${name}!</h2>
                             <p style="margin:20px 0; font-size:15px; line-height:1.5; color:#555555;">
-                                Gracias por registrarte en <strong>QMenú</strong>. Para completar tu registro y activar tu cuenta, por favor verifica tu dirección de correo electrónico haciendo clic en el siguiente botón:
+                                Gracias por registrarte en <strong>QMenú</strong>. Tu código de verificación es:
                             </p>
                         </td>
                     </tr>
@@ -111,12 +113,10 @@ const sendVerification = async (req, res, next) => {
                         <td align="center" style="padding: 10px 40px 30px 40px;">
                             <table border="0" cellspacing="0" cellpadding="0">
                                 <tr>
-                                    <td align="center" bgcolor="#FF1E00" style="border-radius:6px;">
-                                        <a href="${verificationLink}" 
-                                           target="_blank" 
-                                           style="padding: 12px 24px; font-size: 16px; color: #ffffff; font-weight:bold; text-decoration: none; display: inline-block;">
-                                            Verificar cuenta
-                                        </a>
+                                    <td align="center" bgcolor="#f4f4f4" style="border-radius:6px; padding: 15px 30px;">
+                                        <span style="font-size: 32px; color: #FF1E00; font-weight:bold; letter-spacing: 5px;">
+                                            ${verificationCode}
+                                        </span>
                                     </td>
                                 </tr>
                             </table>
@@ -125,8 +125,7 @@ const sendVerification = async (req, res, next) => {
                     <tr>
                         <td align="center" style="padding: 0 40px 30px 40px;">
                             <p style="margin:0; font-size:13px; color:#666666; line-height: 1.4;">
-                                Si el botón no funciona, puedes copiar y pegar el siguiente enlace en tu navegador:<br>
-                                <a href="${verificationLink}" style="color: #FF1E00; word-break: break-all;">${verificationLink}</a>
+                                Ingresa este código numérico en la pantalla de registro para validar tu cuenta.
                             </p>
                         </td>
                     </tr>

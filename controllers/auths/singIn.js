@@ -45,7 +45,7 @@ export default async function signin(req, res, next) {
     });
 
     // Crear menú automáticamente si no existe
-    if (!menus) {
+    if (!menus || menus.length === 0) {
       let menu = new Menu({
         user_id: userFound._id,
         template_id: "default",
@@ -79,6 +79,12 @@ export default async function signin(req, res, next) {
       // Vincular menú al usuario
       userFound.active_menu_id = menu._id;
       await userFound.save();
+
+      // Añadir el menú creado al array
+      menus = [menu];
+    } else if (!userFound.active_menu_id && menus.length > 0) {
+      userFound.active_menu_id = menus[0]._id;
+      await userFound.save();
     }
 
     // Generar JWT
@@ -101,7 +107,7 @@ export default async function signin(req, res, next) {
       email: userFound.email,
       is_online: userFound.is_online,
       is_active: userFound.is_active,
-      active_menu_id: menus[0]._id
+      active_menu_id: userFound.active_menu_id || menus[0]._id
     };
 
     return res

@@ -1,12 +1,13 @@
 import User from "../models/UserAuth.js";
 export default async function nameAlreadyExist(req, res, next) {
-    const { name } = req.body;
-    const { id } = req.params;
+    const { name, email } = req.body;
     try {
-        const exists = await User.findOne({
-            name: name,
-            _id: { $ne: id }
-        });
+        let query = { name: name };
+        if (email) {
+            query.email = { $ne: email.toLowerCase() };
+        }
+        
+        const exists = await User.findOne(query);
 
         if (exists) {
             return res.status(409).json({

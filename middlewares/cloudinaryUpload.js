@@ -25,10 +25,12 @@ async function uploadToCloudinaryCover(filePath) {
 async function uploadToCloudinaryFood(filepath) {
   const result = await cloudinary.uploader.upload(filepath, {
     folder: "foods",
+    moderation: "aws_rek"
   });
   return {
     url: result.secure_url,
-    publicId: result.public_id
+    publicId: result.public_id,
+    moderation: result.moderation
   };
 }
 export { uploadToCloudinaryUser, uploadToCloudinaryCover, uploadToCloudinaryFood };

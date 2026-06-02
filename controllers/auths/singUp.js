@@ -54,7 +54,7 @@ export default async function signUp(req, res, next) {
       newUser.plan = userData.plan;
       newUser.productsVisibilityPay = userData.productsVisibilityPay;
       newUser.mp_preapproval_id = userData.mp_preapproval_id;
-      newUser.is_online = userData.is_online;
+      newUser.is_online = false
 
       // Si pagó con Mercado Pago o ya verificó en sesión o base de datos, lo activamos
       newUser.isEmailVerified = newUser.isEmailVerified || userData.isEmailVerified;
@@ -135,7 +135,7 @@ export default async function signUp(req, res, next) {
       createdAt: newUser.createdAt,
       codeCreatedAt: req.body.codeCreatedAt,
       paymentCreated: req.body.paymentCreated,
-      menu_id: newMenu._id,
+      active_menu_id: newMenu._id,
       //menuData
       photo: newMenu.photo,
       cover: newMenu.cover,

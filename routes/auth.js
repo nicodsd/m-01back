@@ -49,10 +49,9 @@ router.post(
   "/send-verification",
   authLimiter,
   validator(userSendVerification),
-  emailAlreadyExist,
   sendVerification
 );
-router.get(
+router.post(
   "/verify-email",
   verifyEmail
 );
@@ -61,7 +60,6 @@ router.post(
   authLimiter,
   formIdable,
   nameAlreadyExist,
-  emailAlreadyExist,
   createHash,
   cloudinaryUploadMiddlewareById,
   validator(userSignUp),

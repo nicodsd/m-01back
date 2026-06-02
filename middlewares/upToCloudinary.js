@@ -72,6 +72,22 @@ async function cloudinaryUploadMiddlewareFood(req, res, next) {
       }),
     );
 
+    // Revisar si la IA de Cloudinary (Amazon Rekognition) rechazó la imagen por NSFW
+    const isRejected = uploadResults.some((result) => {
+      return (
+        result.moderation &&
+        result.moderation.length > 0 &&
+        result.moderation[0].status === "rejected"
+      );
+    });
+
+    if (isRejected) {
+      return res.status(400).json({
+        success: false,
+        message: "La imagen ha sido rechazada por contener contenido inapropiado o explícito.",
+      });
+    }
+
     if (uploadResults.length > 0) {
       req.body.photo = uploadResults[0].url;
       req.body.photoId = uploadResults[0].publicId;
