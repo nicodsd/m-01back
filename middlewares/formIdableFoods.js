@@ -31,6 +31,7 @@ async function formidableMiddlewareFoods(req, res, next) {
             order: parseInt(getFirst(fields?.order), 10) || 0,
             is_archived: is_archived,
             is_gluten_free: is_gluten_free, // Agregado aquí
+            menus: getFirst(fields?.menus),
         };
         req.files = files;
         next();

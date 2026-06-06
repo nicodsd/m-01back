@@ -5,6 +5,9 @@ export default async function updateFood(req, res, next) {
   try {
     const { id } = req.params;
     const updates = req.body;
+    if (updates.menus && typeof updates.menus === "string") {
+      updates.menus = JSON.parse(updates.menus);
+    }
 
     // 1. Buscamos el plato actual antes de actualizar para tener el ID de la foto vieja
     const oldFood = await Food.findById(id);

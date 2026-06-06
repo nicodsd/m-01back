@@ -3,33 +3,37 @@ import User from "../../models/UserAuth.js";
 
 export default async function createMenu(req, res, next) {
     const { id } = req.params;
-    const menuData = {
-        user_id: id,
-        template_id: req.body.template_id || "default",
-        photo: req.body.photo || "https://res.cloudinary.com/dsruux0wb/image/upload/v1777043297/user-logo/jcy4ujuqyiuii3ldt0rk.png",
-        cover: req.body.plan !== "free" ? req.body.cover || "https://res.cloudinary.com/dsruux0wb/image/upload/v1777142062/user-cover/Mask_group_v7dp7q.png" : "",
-        photoId: req.body.photoId || "",
-        coverId: req.body.coverId || "",
-        location: req.body.location || "",
-        description: req.body.description || "",
-        phone: req.body.phone || "",
-        instagram: req.body.instagram || "",
-        tiktok: req.body.tiktok || "",
-        facebook: req.body.facebook || "",
-        navBar: "default",
-        presentation: "default",
-        menuEnlisted: req.body.menuEnlisted,
-        multipleStores: false,
-        enable_bebidas: false,
-        enable_postres: false,
-        deliveryZones: false,
-        delivery: false,
-        paymentOptions: false,
-        whatsAppCart: true,
-        productsVisibilityPay: false,
-    }
-
     try {
+        // Buscamos si el usuario ya tiene un menú para heredar su configuración global
+        const existingMenu = await Menu.findOne({ user_id: id });
+
+        const menuData = {
+            user_id: id,
+            template_id: req.body.template_id || (existingMenu ? existingMenu.template_id : "default"),
+            photo: req.body.photo || "https://res.cloudinary.com/dsruux0wb/image/upload/v1777043297/user-logo/jcy4ujuqyiuii3ldt0rk.png",
+            cover: req.body.plan !== "free" ? req.body.cover || "https://res.cloudinary.com/dsruux0wb/image/upload/v1777142062/user-cover/Mask_group_v7dp7q.png" : "",
+            photoId: req.body.photoId || "",
+            coverId: req.body.coverId || "",
+            location: req.body.location || "",
+            description: req.body.description || "",
+            phone: req.body.phone || "",
+            schedule: req.body.schedule || "",
+            instagram: req.body.instagram || "",
+            tiktok: req.body.tiktok || "",
+            facebook: req.body.facebook || "",
+            navBar: existingMenu ? existingMenu.navBar : "default",
+            presentation: existingMenu ? existingMenu.presentation : "default",
+            menuEnlisted: req.body.menuEnlisted,
+            multipleStores: existingMenu ? existingMenu.multipleStores : false,
+            enable_bebidas: existingMenu ? existingMenu.enable_bebidas : false,
+            enable_postres: existingMenu ? existingMenu.enable_postres : false,
+            deliveryZones: existingMenu ? existingMenu.deliveryZones : false,
+            delivery: existingMenu ? existingMenu.delivery : false,
+            paymentOptions: existingMenu ? existingMenu.paymentOptions : false,
+            whatsAppCart: existingMenu ? existingMenu.whatsAppCart : true,
+            productsVisibilityPay: existingMenu ? existingMenu.productsVisibilityPay : false,
+        };
+
         const newMenu = new Menu(menuData);
         await newMenu.save();
         const updatedUser = await User.findByIdAndUpdate(id, { menu_id: newMenu._id });

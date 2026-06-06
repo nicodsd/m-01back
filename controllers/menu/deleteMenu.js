@@ -11,7 +11,7 @@ export default async function deleteMenu(req, res, next) {
         }
         const publicIds = menusToDelete
             .map(menu => menu.photoId)
-            .filter(id => id !== undefined && id !== null);
+            .filter(id => id !== undefined && id !== null && id !== "");
 
         if (publicIds.length > 0) {
             await Promise.all(
@@ -20,7 +20,7 @@ export default async function deleteMenu(req, res, next) {
         }
         const publicIdsCover = menusToDelete
             .map(menu => menu.coverId)
-            .filter(id => id !== undefined && id !== null);
+            .filter(id => id !== undefined && id !== null && id !== "");
         if (publicIdsCover.length > 0) {
             await Promise.all(
                 publicIdsCover.map(id => cloudinary.uploader.destroy(id))

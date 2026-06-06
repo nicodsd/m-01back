@@ -11,10 +11,15 @@ async function formidableMiddleware(req, res, next) {
     for (const key in fields) {
       const value = fields[key][0];
 
-      // Conversión de tipos automática
-      if (value === "true" || value === "1") body[key] = true;
-      else if (value === "false" || value === "0") body[key] = false;
-      else body[key] = value;
+      if (key === "menuEnlisted") {
+        body[key] = Number(value);
+      } else if (value === "true" || value === "1") {
+        body[key] = true;
+      } else if (value === "false" || value === "0") {
+        body[key] = false;
+      } else {
+        body[key] = value;
+      }
     }
 
     if (req.url === "/auth/signup" || req.url === "/menu/create-menu") {

@@ -42,7 +42,8 @@ let readSatellite = async (req, res, next) => {
             });
         }
 
-        let foods = await Food.find({ user_id: user._id }).sort({ order: 1 });
+        let allFoods = await Food.find({ user_id: user._id }).sort({ order: 1 });
+        let foods = allFoods.filter(f => !f.menus || f.menus.length === 0 || f.menus.some(id => id.toString() === menu._id.toString()));
 
         let data = {
             _id: user._id,

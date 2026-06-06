@@ -12,7 +12,7 @@ let read = async (req, res, next) => {
                 message: "Usuario no encontrado",
             });
         }
-        let foods = await Food.find({ user_id: user._id }).sort({ order: 1 })
+        let allFoods = await Food.find({ user_id: user._id }).sort({ order: 1 })
         let menu = await Menu.findOne({ user_id: user._id })
         if (!menu) {
             return res.status(404).json({
@@ -20,6 +20,10 @@ let read = async (req, res, next) => {
                 message: "Menu no encontrado",
             });
         }
+        
+        // Filtrar platos: mostrar si menus está vacío (o no existe) o si incluye el ID del menú
+        let foods = allFoods.filter(f => !f.menus || f.menus.length === 0 || f.menus.some(id => id.toString() === menu._id.toString()));
+
         let data = {
             _id: user._id,
             name: user.name,

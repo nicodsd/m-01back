@@ -14,6 +14,7 @@ let schema = new Schema(
     photoId: { type: String, required: true },
     is_archived: { type: Boolean, required: false, default: false },
     is_gluten_free: { type: Boolean, required: false, default: false },
+    menus: [{ type: Types.ObjectId, ref: "Menu", required: false, default: [] }],
   },
   {
     timestamps: true,

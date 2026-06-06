@@ -9,6 +9,7 @@ const menuSchema = new mongoose.Schema({
     location: { type: String, default: "" },
     description: { type: String, default: "" },
     phone: { type: String, default: "" },
+    schedule: { type: String, default: "" },
     instagram: { type: String, default: "" },
     tiktok: { type: String, default: "" },
     facebook: { type: String, default: "" },

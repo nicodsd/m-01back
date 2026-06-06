@@ -13,7 +13,8 @@ let createFoodByUserId = async (req, res, next) => {
     is_promo,
     promo_price,
     order,
-    is_gluten_free
+    is_gluten_free,
+    menus
   } = req.body;
 
   let user_id = req.params.id;
@@ -49,7 +50,8 @@ let createFoodByUserId = async (req, res, next) => {
       sub_category,
       category,
       order,
-      is_gluten_free
+      is_gluten_free,
+      menus: menus ? (typeof menus === "string" ? JSON.parse(menus) : menus) : []
     };
 
     let food = await Food.create(foodData);

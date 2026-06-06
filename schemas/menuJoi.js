@@ -8,6 +8,7 @@ export const menuSignUp = Joi.object({
     coverId: Joi.string().allow("", null).optional().messages({ "string.empty": "Cover ID required", }),
     phonePrefix: Joi.string().allow("", null).optional().messages({ "string.empty": "Ingresa un prefijo de teléfono", "string.min": "Ingresa al menos 2 caracteres", "string.max": "Ingresa como máximo 4 caracteres", }),
     phone: Joi.string().allow("", null).optional().messages({ "string.empty": "Ingresa un número de teléfono", "string.min": "Ingresa al menos 7 caracteres", "string.max": "Ingresa como máximo 10 caracteres", }),
+    schedule: Joi.string().allow("", null).optional().messages({ "string.empty": "Ingresa un horario", "string.min": "Ingresa al menos 5 caracteres", "string.max": "Ingresa como máximo 20 caracteres", }),
     location: Joi.string().allow("", null).optional().messages({ "string.empty": "Ingresa una dirección", "string.min": "Ingresa al menos 5 caracteres", "string.max": "Ingresa como máximo 20 caracteres", }),
     description: Joi.string().allow("", null).optional().messages({ "string.empty": "Ingresa una descripción", "string.min": "Ingresa al menos 5 caracteres", "string.max": "Ingresa como máximo 30 caracteres", }),
     instagram: Joi.string().allow("", null).optional().messages({ "string.empty": "Instagram requerido", }),
@@ -30,12 +31,14 @@ export const menuSignUp = Joi.object({
 });
 
 export const menuInfoUpdate = Joi.object({
+    menu_id: Joi.string().optional(),
     user_id: Joi.string().optional().messages({ "string.empty": "Ingresa un user_id", "string.min": "Ingresa al menos 5 caracteres", "string.max": "Ingresa como máximo 30 caracteres", }),
     name: Joi.string().optional().messages({ "string.empty": "Ingresa un nombre", "string.min": "Ingresa al menos 5 caracteres", "string.max": "Ingresa como máximo 30 caracteres", }),
     location: Joi.string().allow("", null).optional().min(5).max(20).messages({ "string.min": "Ingresa al menos 5 caracteres.", "string.max": "Ingresa como máximo 20 caracteres.", }),
     description: Joi.string().allow("", null).optional().min(5).max(30).messages({ "string.min": "Ingresa al menos 5 caracteres.", "string.max": "Ingresa como máximo 30 caracteres.", }),
     phonePrefix: Joi.string().allow("", null).optional().messages({ "string.empty": "Ingresa un prefijo de teléfono", "string.min": "Ingresa al menos 2 caracteres", "string.max": "Ingresa como máximo 4 caracteres", }),
     phone: Joi.string().allow("", null).optional().min(7).max(10).messages({ "string.min": "Ingresa un numero válido.", "string.max": "Ingresa un numero válido.", }),
+    schedule: Joi.string().allow("", null).optional().messages({ "string.empty": "Ingresa un horario", "string.min": "Ingresa al menos 5 caracteres", "string.max": "Ingresa como máximo 20 caracteres", }),
     photo: Joi.string().uri().optional().allow("", null).messages({ "string.uri": "Ingresa una URL válida para la foto.", }),
     photoId: Joi.string().optional().allow("", null).messages({ "string.empty": "Photo ID required", }),
     cover: Joi.string().uri().optional().allow("", null).messages({ "string.uri": "Ingresa una URL válida para la portada.", }),
@@ -46,6 +49,7 @@ export const menuInfoUpdate = Joi.object({
 });
 
 export const menuConfigUpdate = Joi.object({
+    menu_id: Joi.string().optional(),
     template_id: Joi.string().optional().default("default").messages({ "string.empty": "Ingresa un template_id", }),
     navBar: Joi.string().optional().default("default").messages({ "string.empty": "Ingresa un navBar", }),
     presentation: Joi.string().optional().default("default").messages({ "string.empty": "Ingresa un presentation", }),

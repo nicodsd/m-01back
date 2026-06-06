@@ -21,11 +21,8 @@ const updateMenuConfig = async (req, res, next) => {
             return res.status(404).json({ success: false, status: 404, message: "Usuario no encontrado" });
         }
         let query = { user_id: user._id };
-        if (req.body.menu_id) {
-            query._id = req.body.menu_id;
-        }
 
-        const menu = await Menu.findOneAndUpdate(query, {
+        const configToUpdate = {
             template_id,
             navBar,
             presentation,
@@ -37,13 +34,24 @@ const updateMenuConfig = async (req, res, next) => {
             paymentOptions,
             whatsAppCart,
             productsVisibilityPay
-        }, { new: true });
+        };
+
+        // Actualizamos TODOS los menús del usuario
+        await Menu.updateMany(query, { $set: configToUpdate });
+
+        // Buscamos un menú para devolverlo en la respuesta (el principal o cualquiera actualizado)
+        let findQuery = { user_id: user._id };
+        if (req.body.menu_id) {
+            findQuery._id = req.body.menu_id;
+        }
+        const menu = await Menu.findOne(findQuery);
+
         return res
             .status(200)
             .json({
                 success: true,
                 status: 200,
-                message: "Configuración del menú actualizada exitosamente",
+                message: "Configuración actualizada en todos los menús exitosamente",
                 menu,
             });
     } catch (error) {

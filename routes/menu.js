@@ -29,11 +29,10 @@ const menuLimiter = rateLimit({
 
 const router = express.Router();
 
-router.get("/:name", read)
-router.get("/:name/:locationOrId", readSatellite)
 router.get("/get-menus/:id",
     //passport.authenticate("jwt", { session: false }),
     getAllMenus)
+
 router.post("/create-menu/:id",
     passport.authenticate("jwt", { session: false }),
     formIdable,
@@ -41,6 +40,9 @@ router.post("/create-menu/:id",
     validator(menuSignUp),
     createMenu
 )
+
+router.get("/:name", read)
+router.get("/:name/:locationOrId", readSatellite)
 router.put("/update/info/:id",
     passport.authenticate("jwt", { session: false }),
     formIdable,
