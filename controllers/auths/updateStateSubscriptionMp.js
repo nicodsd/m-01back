@@ -8,9 +8,15 @@ export default async function updateStateSubscriptionMp(req, res) {
         }
         const { id: mp_preapproval_id } = req.query;
         const { status: mp_subscription_state, id: mp_subscription_id } = req.body;
+        
+        let updateData = { mp_subscription_state, mp_subscription_id };
+        if (mp_subscription_state === 'authorized') {
+            updateData.paymentCreated = new Date();
+        }
+
         const user = await User.findOneAndUpdate(
             { mp_preapproval_id },
-            { mp_subscription_state, mp_subscription_id },
+            updateData,
             { new: true, runValidators: true }
         );
         if (!user) {

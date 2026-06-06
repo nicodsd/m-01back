@@ -2,6 +2,7 @@ import User from "../../models/UserAuth.js";
 import Menu from "../../models/Menu.js";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
+import { checkAndUpdatePlan } from "../../utils/planExpiration.js";
 
 const $key = process.env.JWT_SECRET_KEY;
 
@@ -9,7 +10,7 @@ export default async function signin(req, res, next) {
   const { email, password } = req.body;
 
   try {
-    const userFound = await User.findOne({
+    let userFound = await User.findOne({
       email: email.toLowerCase(),
     });
     if (!userFound) {
@@ -18,6 +19,8 @@ export default async function signin(req, res, next) {
         message: "Usuario no encontrado",
       });
     }
+
+    userFound = await checkAndUpdatePlan(userFound);
 
     const isMatch = await bcrypt.compare(password, userFound.password);
     if (!isMatch) {

@@ -1,6 +1,7 @@
 import passportJwt from "passport-jwt";
 import User from "../models/UserAuth.js";
 import passport from "passport";
+import { checkAndUpdatePlan } from "../utils/planExpiration.js";
 const cookieExtractor = (req) => {
   let token = null;
   if (req && req.cookies) {
@@ -16,8 +17,11 @@ passport.use(
     },
     async (jwt_payload, done) => {
       try {
-        const user = await User.findById(jwt_payload._id);
-        if (user) return done(null, user);
+        let user = await User.findById(jwt_payload._id);
+        if (user) {
+            user = await checkAndUpdatePlan(user);
+            return done(null, user);
+        }
         return done(null, false);
       } catch (error) {
         return done(error, false);
