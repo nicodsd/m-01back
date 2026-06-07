@@ -21,6 +21,7 @@ export const userSignUp = Joi.object({
   photoId: Joi.string().allow("", null).optional().messages({ "string.empty": "Photo ID required", }),
   cover: Joi.string().uri().optional().messages({ "string.uri": "Ingresa una portada válida.", }),
   coverId: Joi.string().allow("", null).optional().messages({ "string.empty": "Cover ID required", }),
+  schedule: Joi.string().allow("", null).optional().messages({ "string.empty": "Ingresa un horario", "string.min": "Ingresa al menos 5 caracteres", "string.max": "Ingresa como máximo 30 caracteres", }),
   phone: Joi.string().allow("", null).optional().messages({ "string.empty": "Ingresa un número de teléfono", "string.min": "Ingresa al menos 7 caracteres", "string.max": "Ingresa como máximo 10 caracteres", }),
   location: Joi.string().allow("", null).optional().messages({ "string.empty": "Ingresa una dirección", "string.min": "Ingresa al menos 5 caracteres", "string.max": "Ingresa como máximo 20 caracteres", }),
   description: Joi.string().allow("", null).optional().messages({ "string.empty": "Ingresa una descripción", "string.min": "Ingresa al menos 5 caracteres", "string.max": "Ingresa como máximo 30 caracteres", }),
