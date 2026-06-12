@@ -23,7 +23,7 @@ async function formidableMiddleware(req, res, next) {
     }
 
     if (req.url === "/auth/signup" || req.url === "/menu/create-menu") {
-      if (!body.preapprovalId) {
+      if (!body.mp_preapproval_id) {
         body.productsVisibilityPay = false;
       } else {
         body.productsVisibilityPay = true;

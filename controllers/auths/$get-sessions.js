@@ -2,7 +2,6 @@
 export const checkSession = (req, res) => {
     // Forzamos al navegador a NO cachear esta respuesta
     res.set('Cache-Control', 'no-store, no-cache, must-revalidate, private');
-
     if (req.session.tempUserData) {
         return res.json({
             success: true,

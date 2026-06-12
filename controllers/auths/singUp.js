@@ -6,7 +6,7 @@ const $key = process.env.JWT_SECRET_KEY;
 export default async function signUp(req, res, next) {
   // 1. Intentamos obtener datos de la sesión
   const tempData = req.session ? req.session.tempUserData : null;
-  const { mp_preapproval_id: preapprovalId } = req.body;
+  const { mp_preapproval_id } = req.body;
 
   /**
    * LÓGICA HÍBRIDA: 
@@ -36,29 +36,30 @@ export default async function signUp(req, res, next) {
       password: req.body.password,
       plan: req.body.plan || "free",
       productsVisibilityPay: req.body.productsVisibilityPay || false,
-      mp_preapproval_id: preapprovalId || null,
+      mp_preapproval_id: mp_preapproval_id || null,
       is_online: false,
-      is_active: preapprovalId ? true : (tempData ? tempData.isEmailVerified : false), // Activo si pagó o si ya validó su email
+      is_active: mp_preapproval_id ? true : (tempData ? tempData.isEmailVerified : false), // Activo si pagó o si ya validó su email
       isEmailVerified: tempData ? tempData.isEmailVerified : false,
       emailVerificationToken: tempData ? tempData.verificationCode : null,
       codeCreatedAt: new Date(),
-      paymentCreated: preapprovalId ? new Date() : null,
+      paymentCreated: mp_preapproval_id ? new Date() : null,
       active_menu_id: null
     };
 
     // 3. Guardar en MongoDB (Lógica híbrida de Upsert/Actualización robusta)
     let newUser = await User.findOne({ email: req.body.email.toLowerCase() });
     if (newUser) {
-      newUser.name = userData.name;
-      newUser.password = userData.password;
-      newUser.plan = userData.plan;
-      newUser.productsVisibilityPay = userData.productsVisibilityPay;
-      newUser.mp_preapproval_id = userData.mp_preapproval_id;
-      newUser.is_online = false
+      // Solo actualizamos si hay nuevos valores, para no sobreescribir con vacío si se perdió la sesión
+      newUser.name = userData.name || newUser.name;
+      newUser.password = userData.password || newUser.password;
+      newUser.plan = userData.plan || newUser.plan;
+      newUser.productsVisibilityPay = userData.productsVisibilityPay ?? newUser.productsVisibilityPay;
+      newUser.mp_preapproval_id = userData.mp_preapproval_id || newUser.mp_preapproval_id;
+      newUser.is_online = false;
 
       // Si pagó con Mercado Pago o ya verificó en sesión o base de datos, lo activamos
       newUser.isEmailVerified = newUser.isEmailVerified || userData.isEmailVerified;
-      newUser.is_active = preapprovalId ? true : (newUser.isEmailVerified || userData.is_active);
+      newUser.is_active = mp_preapproval_id ? true : (newUser.isEmailVerified || userData.is_active);
 
       newUser.paymentCreated = userData.paymentCreated || newUser.paymentCreated;
       if (userData.emailVerificationToken && !newUser.isEmailVerified) {
@@ -153,7 +154,7 @@ export default async function signUp(req, res, next) {
       delivery: newMenu.delivery,
       paymentOptions: newMenu.paymentOptions,
       whatsAppCart: newMenu.whatsAppCart,
-      productsVisibilityPay: newMenu.productsVisibilityPay,
+      productsVisibilityPay: null,
     };
 
     // 7. Enviar Cookie y Respuesta
@@ -169,7 +170,7 @@ export default async function signUp(req, res, next) {
         success: true,
         token,
         user: userResponse,
-        message: preapprovalId
+        message: mp_preapproval_id
           ? "Suscripción y registro completados con éxito"
           : "Registro gratuito completado con éxito",
       });

@@ -76,8 +76,6 @@ const sendVerification = async (req, res, next) => {
             },
         });
 
-        const verificationLink = `${process.env.FRONTEND_URL}/validacion-de-cuenta?code=${encodeURIComponent(verificationCode)}`;
-
         const mailOptions = {
             from: `"QMenú" <${process.env.EMAIL}>`,
             to: email,

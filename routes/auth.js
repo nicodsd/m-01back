@@ -3,6 +3,8 @@ import express from "express";
 import signUp from "../controllers/auths/singUp.js";
 import signin from "../controllers/auths/singIn.js";
 import signout from "../controllers/auths/singOut.js";
+import updatePlan from "../controllers/auths/updatePlan.js";
+import createMenu from "../controllers/auths/createMenu.js";
 import validator from "../middlewares/validator.js";
 import emailAlreadyExist from "../middlewares/emailAlreadyExist.js";
 import validatePassword from "../middlewares/validatePassword.js";
@@ -42,13 +44,15 @@ const router = express.Router();
 //ENDPOINTS AUTH - REGISTER, LOGIN, LOGOUT
 router.get(
   "/check-session",
-  authLimiter,
+  //authLimiter,
   checkSession,
 );
 router.post(
   "/send-verification",
   authLimiter,
   validator(userSendVerification),
+  nameAlreadyExist,
+  emailAlreadyExist,
   sendVerification
 );
 router.post(
@@ -78,6 +82,16 @@ router.post(
 router.post(
   "/signout",
   signout,
+);
+router.put(
+  "/update-plan",
+  updatePlan
+);
+router.post(
+  "/create-menu",
+  formIdable,
+  cloudinaryUploadMiddlewareById,
+  createMenu
 );
 //ENDPOINTS AUTH - UPDATE
 router.put(

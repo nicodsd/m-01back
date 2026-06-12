@@ -74,7 +74,7 @@ export default async function signin(req, res, next) {
         delivery: false,
         paymentOptions: false,
         whatsAppCart: true,
-        productsVisibilityPay: false,
+        productsVisibilityPay: userFound.plan === "free" ? false : true,
       });
 
       await menu.save();

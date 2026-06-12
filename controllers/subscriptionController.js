@@ -6,7 +6,7 @@ const client = new MercadoPagoConfig({
 
 export const createSubscription = async (req, res) => {
     try {
-        const { reason, transaction_amount, plan, page, email, password, name } = req.body;
+        const { reason, transaction_amount, plan, email, password, name } = req.body;
         // 1. Guardamos los datos sensibles en la SESIÓN (no en la DB todavía)
         // Usamos bcrypt para la contraseña antes de guardarla en la sesión
 
@@ -20,8 +20,9 @@ export const createSubscription = async (req, res) => {
 
         // 2. Configuramos la suscripción en Mercado Pago
         const subscription = new PreApprovalPlan(client);
-        //const link_success = `${process.env.APP_URL}/registro-de-usuario/2/success`; // Tu página de éxito
-        const link_success = `https://incident-conservation-critical-drew.trycloudflare.com/registro-de-usuario/2/success`; // Tu página de éxito
+
+        // Pasamos email y password por URL para evitar pérdida de sesión por cross-site redirect
+        let link_success = `https://suddenly-kenny-toolbox-legends.trycloudflare.com/registro-de-usuario/3/success`;
 
         const result = await subscription.create({
             body: {
