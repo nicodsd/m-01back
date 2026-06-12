@@ -44,7 +44,7 @@ const router = express.Router();
 //ENDPOINTS AUTH - REGISTER, LOGIN, LOGOUT
 router.get(
   "/check-session",
-  //authLimiter,
+  authLimiter,
   checkSession,
 );
 router.post(
