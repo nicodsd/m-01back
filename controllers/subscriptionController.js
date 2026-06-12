@@ -21,12 +21,9 @@ export const createSubscription = async (req, res) => {
         // 2. Configuramos la suscripción en Mercado Pago
         const subscription = new PreApprovalPlan(client);
 
-        // Pasamos email y password por URL para evitar pérdida de sesión por cross-site redirect
-        let link_success = `${process.env.APP_URL}/registro-de-usuario/3/success`;
-
         const result = await subscription.create({
             body: {
-                back_url: link_success,
+                back_url: `${process.env.APP_URL}/registro-de-usuario/3/success`,
                 reason: reason,
                 auto_recurring: {
                     frequency: 1,
