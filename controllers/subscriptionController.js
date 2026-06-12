@@ -22,7 +22,7 @@ export const createSubscription = async (req, res) => {
         const subscription = new PreApprovalPlan(client);
 
         // Pasamos email y password por URL para evitar pérdida de sesión por cross-site redirect
-        let link_success = `https://qmenu.digital/registro-de-usuario/3/success`;
+        let link_success = `${process.env.APP_URL}/registro-de-usuario/3/success`;
 
         const result = await subscription.create({
             body: {
