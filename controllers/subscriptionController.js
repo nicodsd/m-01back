@@ -3,7 +3,6 @@ import { MercadoPagoConfig, PreApprovalPlan } from 'mercadopago';
 const client = new MercadoPagoConfig({
     accessToken: process.env.MP_ACCESS_TOKEN
 });
-const Link = `${process.env.APP_URL}/registro-de-usuario/3/success`
 
 export const createSubscription = async (req, res) => {
     try {
@@ -21,6 +20,7 @@ export const createSubscription = async (req, res) => {
 
         // 2. Configuramos la suscripción en Mercado Pago
         const subscription = new PreApprovalPlan(client);
+        const Link = "https://qmenu.digital/registro-de-usuario/3/success"
         const result = await subscription.create({
             body: {
                 back_url: Link,
