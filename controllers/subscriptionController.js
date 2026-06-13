@@ -32,7 +32,7 @@ export const createSubscription = async (req, res) => {
                     currency_id: "ARS"
                 },
                 payer_email: email,
-                status: "pending",
+                status: "active",
             }
         });
         req.session.tempUserData = {
