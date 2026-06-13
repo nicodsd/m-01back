@@ -23,7 +23,7 @@ export const createSubscription = async (req, res) => {
 
         const result = await subscription.create({
             body: {
-                back_url: process.env.APP_URL,
+                back_url: `${process.env.APP_URL}/registro-de-usuario/3/success`,
                 reason: reason,
                 auto_recurring: {
                     frequency: 1,
