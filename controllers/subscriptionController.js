@@ -23,11 +23,7 @@ export const createSubscription = async (req, res) => {
         //const Link = "https://qmenu.digital/registro-de-usuario/3/success"
         const result = await subscription.create({
             body: {
-                back_urls: {
-                    success: "https://qmenu.digital/registro-de-usuario/3/success",
-                    failure: "https://qmenu.digital",
-                    pending: "https://qmenu.digital"
-                },
+                back_url: "https://qmenu.digital/pagos",
                 reason: reason,
                 auto_recurring: {
                     frequency: 1,
