@@ -3,7 +3,7 @@ import { MercadoPagoConfig, PreApprovalPlan } from 'mercadopago';
 const client = new MercadoPagoConfig({
     accessToken: process.env.MP_ACCESS_TOKEN
 });
-const Link = `${process.env.APP_URL}/registro-de-usuario/3/success`
+const Link = `${process.env.APP_URL}/registro-de-usuario`
 
 export const createSubscription = async (req, res) => {
     try {
