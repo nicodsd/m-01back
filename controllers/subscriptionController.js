@@ -20,7 +20,7 @@ export const createSubscription = async (req, res) => {
 
         // 2. Configuramos la suscripción en Mercado Pago
         const subscription = new PreApproval(client);
-        const Link = `${process.env.APP_URL}/registro-de-usuario/3/success`
+        const Link = "https://qmenu.digital/registro-de-usuario/3/success"
         const result = await subscription.create({
             body: {
                 back_url: Link,
