@@ -31,7 +31,8 @@ export const createSubscription = async (req, res) => {
                     transaction_amount: transaction_amount,
                     currency_id: "ARS"
                 },
-                status: "active",
+                payer_email: email,
+                status: "pending",
             }
         });
         req.session.tempUserData = {
