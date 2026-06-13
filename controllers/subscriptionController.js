@@ -23,7 +23,7 @@ export const createSubscription = async (req, res) => {
         const subscription = new PreApprovalPlan(client);
         const result = await subscription.create({
             body: {
-                back_url: Link,
+                back_url: process.env.APP_URL,
                 reason: reason,
                 auto_recurring: {
                     frequency: 1,
