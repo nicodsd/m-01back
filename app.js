@@ -40,4 +40,5 @@ app.use(sessionConfig);
 app.use("/", indexRouter);
 app.use(notFoundHandler);
 app.use(errorHandler);
+console.log("Link", process.env.APP_URL)
 export default app;
