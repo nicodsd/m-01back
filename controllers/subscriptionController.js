@@ -3,7 +3,7 @@ import { MercadoPagoConfig, PreApprovalPlan } from 'mercadopago';
 const client = new MercadoPagoConfig({
     accessToken: process.env.MP_ACCESS_TOKEN
 });
-const Link = `${process.env.APP_URL}/registro-de-usuario`
+const Link = `${process.env.APP_URL}/registro-de-usuario/3/success`
 
 export const createSubscription = async (req, res) => {
     try {
@@ -23,7 +23,7 @@ export const createSubscription = async (req, res) => {
         const subscription = new PreApprovalPlan(client);
         const result = await subscription.create({
             body: {
-                back_url: process.env.APP_URL,
+                back_url: Link,
                 reason: reason,
                 auto_recurring: {
                     frequency: 1,
