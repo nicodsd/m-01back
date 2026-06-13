@@ -24,7 +24,7 @@ const updatePlan = async (req, res, next) => {
             return res.status(404).json({ success: false, message: "Usuario no encontrado." });
         }
 
-        return res.status(200).json({ success: true, message: "Plan actualizado con éxito." });
+        return res.status(200).json({ success: true, message: "Plan actualizado con éxito.", user: user });
     } catch (error) {
         console.error("Error al actualizar el plan:", error);
         next(error);
