@@ -23,7 +23,7 @@ export const createSubscription = async (req, res) => {
         //const Link = "https://qmenu.digital/registro-de-usuario/3/success"
         const result = await subscription.create({
             body: {
-                back_url: "https://qmenu.digital/pagos",
+                back_url: process.env.APP_URL,
                 reason: reason,
                 auto_recurring: {
                     frequency: 1,
