@@ -1,5 +1,4 @@
 import { MercadoPagoConfig, PreApprovalPlan } from 'mercadopago';
-import { MercadoPagoConfig, PreApprovalPlan } from 'mercadopago';
 
 const client = new MercadoPagoConfig({
     accessToken: process.env.MP_ACCESS_TOKEN
@@ -32,7 +31,6 @@ export const createSubscription = async (req, res) => {
                     transaction_amount: transaction_amount,
                     currency_id: "ARS"
                 },
-                status: "active",
                 status: "active",
             }
         });
