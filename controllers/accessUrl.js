@@ -20,7 +20,7 @@ let read = async (req, res, next) => {
                 message: "Menu no encontrado",
             });
         }
-        
+
         // Filtrar platos: mostrar si menus está vacío (o no existe) o si incluye el ID del menú
         let foods = allFoods.filter(f => !f.menus || f.menus.length === 0 || f.menus.some(id => id.toString() === menu._id.toString()));
 
@@ -29,6 +29,7 @@ let read = async (req, res, next) => {
             name: user.name,
             plan: user.plan,
             location: menu?.location,
+            schedule: menu?.schedule,
             description: menu?.description,
             phone: menu?.phone,
             cover: menu?.cover,
