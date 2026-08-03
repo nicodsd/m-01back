@@ -19,6 +19,8 @@ const menuSchema = new mongoose.Schema({
     navBar: { type: String, default: "default" },
     enable_bebidas: { type: Boolean, default: false },
     enable_postres: { type: Boolean, default: false },
+    top_sections: { type: [String], default: [] },
+    bottom_sections: { type: [String], default: [] },
     presentation: { type: String, default: "default" },
     multipleStores: { type: Boolean, default: false },
     deliveryZones: { type: Boolean, default: false },

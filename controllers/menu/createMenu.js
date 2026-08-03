@@ -27,6 +27,8 @@ export default async function createMenu(req, res, next) {
             multipleStores: existingMenu ? existingMenu.multipleStores : false,
             enable_bebidas: existingMenu ? existingMenu.enable_bebidas : false,
             enable_postres: existingMenu ? existingMenu.enable_postres : false,
+            top_sections: existingMenu ? existingMenu.top_sections : [],
+            bottom_sections: existingMenu ? existingMenu.bottom_sections : [],
             deliveryZones: existingMenu ? existingMenu.deliveryZones : false,
             delivery: existingMenu ? existingMenu.delivery : false,
             paymentOptions: existingMenu ? existingMenu.paymentOptions : false,
