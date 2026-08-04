@@ -11,6 +11,7 @@ import cookieParser from 'cookie-parser';
 import notFoundHandler from "./middlewares/notFoundHandler.js";
 import errorHandler from "./middlewares/errorHandler.js";
 import sessionConfig from './config/mongoConnect.js';
+import "./workers/emailWorker.js"; // Initialize background workers
 const app = express();
 app.set('trust proxy', 1);
 

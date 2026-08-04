@@ -1,5 +1,9 @@
 // services/emailService.js
 import { transporter } from '../config/email.js';
+import { Resend } from 'resend';
+
+const resend = new Resend(process.env.RESEND_API_KEY || 're_dummy_key');
+
 
 /**
  * Envía correo de verificación con link
@@ -56,4 +60,24 @@ export const sendVerificationCode = async (to, code, username) => {
     };
 
     return await transporter.sendMail(mailOptions);
+};
+
+/**
+ * Enviar correos masivos usando Resend
+ */
+export const sendBulkEmails = async (recipients, subject, htmlContent) => {
+    try {
+        const batch = recipients.map(email => ({
+            from: 'QMenu <onboarding@resend.dev>', // Actualizar con dominio verificado
+            to: email,
+            subject: subject,
+            html: htmlContent
+        }));
+
+        const data = await resend.batch.send(batch);
+        return { success: true, data };
+    } catch (error) {
+        console.error("Resend Batch Error:", error);
+        return { success: false, error };
+    }
 };
