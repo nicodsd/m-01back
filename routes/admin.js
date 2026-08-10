@@ -1,7 +1,19 @@
 import express from "express";
 import agenda from "../config/agenda.js";
+import UserAuth from "../models/UserAuth.js";
 
 const router = express.Router();
+
+// GET /admin/users
+router.get("/users", async (req, res) => {
+    try {
+        const users = await UserAuth.find({}, "name email role is_active").sort({ createdAt: -1 });
+        return res.status(200).json({ success: true, users });
+    } catch (error) {
+        console.error("Error fetching users:", error);
+        return res.status(500).json({ success: false, message: "Error interno" });
+    }
+});
 
 // POST /admin/campaigns
 router.post("/campaigns", async (req, res) => {
