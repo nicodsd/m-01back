@@ -6,7 +6,7 @@ import mongoose from "mongoose";
 let readSatellite = async (req, res, next) => {
     let { name, locationOrId } = req.params;
     name = name.replace(/-/g, " ");
-    
+
     // Si la url puede traer guiones para espacios en el location
     let parsedLocation = locationOrId.replace(/-/g, " ");
 
@@ -21,13 +21,19 @@ let readSatellite = async (req, res, next) => {
 
         // Buscar el menu que coincida con user_id y (location igual a parsedLocation O el id)
         let query = { user_id: user._id };
-        
+
         let isObjectId = mongoose.Types.ObjectId.isValid(locationOrId);
-        
+        let isNumeric = !isNaN(locationOrId) && !isNaN(parseFloat(locationOrId));
+
         if (isObjectId) {
             query.$or = [
                 { location: { $regex: new RegExp(`^${parsedLocation}$`, 'i') } },
                 { _id: locationOrId }
+            ];
+        } else if (isNumeric) {
+            query.$or = [
+                { location: { $regex: new RegExp(`^${parsedLocation}$`, 'i') } },
+                { menuEnlisted: Number(locationOrId) }
             ];
         } else {
             query.location = { $regex: new RegExp(`^${parsedLocation}$`, 'i') };
@@ -51,6 +57,7 @@ let readSatellite = async (req, res, next) => {
             name: user.name,
             plan: user.plan,
             location: menu?.location,
+            schedule: menu?.schedule,
             description: menu?.description,
             phone: menu?.phone,
             cover: menu?.cover,
