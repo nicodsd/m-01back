@@ -107,8 +107,8 @@ router.post(
   "/subscription/webhook-mp",
   successSubscription,
 );
-router.post("/forgot-password", forgotPassword);
-router.post("/reset-password", resetPassword);
+router.post("/forgot-password", authLimiter, forgotPassword);
+router.post("/reset-password", authLimiter, resetPassword);
 
 //ENDPOINTS AUTH - ADMIN
 router.post("/admin", signin);
