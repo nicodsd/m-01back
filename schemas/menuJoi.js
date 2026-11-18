@@ -34,6 +34,7 @@ export const menuSignUp = Joi.object({
 
 export const menuInfoUpdate = Joi.object({
     menu_id: Joi.string().optional(),
+    paused: Joi.boolean().optional().messages({ "boolean.base": "El estado de descanso debe ser verdadero o falso." }),
     user_id: Joi.string().optional().messages({ "string.empty": "Ingresa un user_id", "string.min": "Ingresa al menos 5 caracteres", "string.max": "Ingresa como máximo 30 caracteres", }),
     name: Joi.string().optional().messages({ "string.empty": "Ingresa un nombre", "string.min": "Ingresa al menos 5 caracteres", "string.max": "Ingresa como máximo 30 caracteres", }),
     location: Joi.string().allow("", null).optional().min(5).max(20).messages({ "string.min": "Ingresa al menos 5 caracteres.", "string.max": "Ingresa como máximo 20 caracteres.", }),

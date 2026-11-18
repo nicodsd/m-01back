@@ -29,6 +29,7 @@ const menuSchema = new mongoose.Schema({
     whatsAppCart: { type: Boolean, default: true },
     productsVisibilityPay: { type: Boolean, default: false },
     menuEnlisted: { type: Number, default: 0 },
+    paused: { type: Boolean, default: false },
 });
 
 const Menu = mongoose.model("Menu", menuSchema);

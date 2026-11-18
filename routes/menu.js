@@ -30,7 +30,7 @@ const menuLimiter = rateLimit({
 const router = express.Router();
 
 router.get("/get-menus/:id",
-    //passport.authenticate("jwt", { session: false }),
+    passport.authenticate("jwt", { session: false }),
     getAllMenus)
 
 router.post("/create-menu/:id",

@@ -77,7 +77,8 @@ let readSatellite = async (req, res, next) => {
             whatsAppCart: menu.whatsAppCart,
             productsVisibilityPay: menu.productsVisibilityPay,
             top_sections: menu.top_sections,
-            bottom_sections: menu.bottom_sections
+            bottom_sections: menu.bottom_sections,
+            paused: menu.paused ?? false
         };
 
         return res.status(200).json({ data });
