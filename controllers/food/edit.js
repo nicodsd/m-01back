@@ -16,11 +16,17 @@ export default async function updateFood(req, res, next) {
     // 2. Lógica de Promoción (Unificada para evitar doble llamada a la DB)
     if (updates.is_promo === "true" || updates.is_promo === true) {
       updates.is_promo = true;
-      if (updates.promo_price !== undefined) {
-        updates.promo_price;
-      }
     } else if (updates.is_promo === "false" || updates.is_promo === false) {
       updates.is_promo = false;
+      updates.promo_price = 0;
+      updates.promo_type = null;
+      updates.promo_badge = null;
+      updates.promo_expires_at = null;
+      updates.promo_started_at = null;
+      updates.promo_buy_qty = null;
+      updates.promo_pay_qty = null;
+      updates.promo_second_unit_percent = null;
+      updates.promo_occasion = null;
     }
 
     if (updates.is_archived === "true" || updates.is_archived === true) {

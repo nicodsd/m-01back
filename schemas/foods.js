@@ -56,15 +56,26 @@ export const foodSchemaUpdate = Joi.object({
 }).unknown(true);
 
 export const foodSchemaUpdatPromo = Joi.object({
-  promo_price: Joi.number().required().messages({
+  promo_price: Joi.number().min(0).required().messages({
     "any.required": "Faltó el precio",
-    "string.empty": "Faltó el precio",
+    "number.base": "El precio debe ser un número",
   }),
   is_promo: Joi.boolean().required().messages({
     "any.required": "Faltó el estado de la promo",
-    "boolean.empty": "Faltó el estado de la promo",
+    "boolean.base": "El estado de la promo debe ser verdadero o falso",
   }),
-  color_promo: Joi.string().optional().messages({
+  color_promo: Joi.string().allow(null, "").optional().messages({
     "string.empty": "Faltó el color de la promo",
   }),
+  promo_type: Joi.string()
+    .valid("percentage", "multiplier", "second_unit", "fixed")
+    .allow(null, "")
+    .optional(),
+  promo_badge: Joi.string().max(40).allow(null, "").optional(),
+  promo_expires_at: Joi.number().allow(null).optional(),
+  promo_started_at: Joi.number().allow(null).optional(),
+  promo_buy_qty: Joi.number().integer().min(2).max(20).allow(null).optional(),
+  promo_pay_qty: Joi.number().integer().min(1).max(19).allow(null).optional(),
+  promo_second_unit_percent: Joi.number().min(1).max(100).allow(null).optional(),
+  promo_occasion: Joi.string().max(40).allow(null, "").optional(),
 });
