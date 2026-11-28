@@ -1,8 +1,12 @@
 import express from "express";
 import agenda from "../config/agenda.js";
 import UserAuth from "../models/UserAuth.js";
+import { getOnlineUsers } from "../controllers/presenceController.js";
 
 const router = express.Router();
+
+// GET /admin/online-users (JSON o SSE con ?stream=1)
+router.get("/online-users", getOnlineUsers);
 
 // GET /admin/users
 router.get("/users", async (req, res) => {

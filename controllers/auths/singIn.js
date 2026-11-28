@@ -3,6 +3,7 @@ import Menu from "../../models/Menu.js";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 import { checkAndUpdatePlan } from "../../utils/planExpiration.js";
+import presenceStore from "../../services/presenceStore.js";
 
 const $key = process.env.JWT_SECRET_KEY;
 
@@ -41,6 +42,17 @@ export default async function signin(req, res, next) {
     // Activar usuario online
     userFound.is_online = true;
     await userFound.save();
+
+    presenceStore.heartbeat({
+      userId: String(userFound._id),
+      email: userFound.email,
+      name: userFound.name,
+      role: userFound.role || "client",
+      plan: userFound.plan || "free",
+      path: "/mi-menu",
+      tabId: "session-login",
+      status: "active",
+    });
 
     // Buscar menú existente
     let menus = await Menu.find({

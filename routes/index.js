@@ -7,6 +7,7 @@ import menuRouter from "./menu.js";
 import analyticsRouter from "./analytics.js";
 import streamRouter from "./stream.js";
 import adminRouter from "./admin.js";
+import presenceRouter from "./presence.js";
 const router = express.Router();
 /* GET home page. */
 router.get("/", function (req, res, next) {
@@ -22,4 +23,5 @@ router.use("/menu", conectedEndpoint, menuRouter)
 router.use("/analytics", conectedEndpoint, analyticsRouter);
 router.use("/stream", streamRouter);
 router.use("/admin", adminRouter);
+router.use("/presence", presenceRouter);
 export default router;
